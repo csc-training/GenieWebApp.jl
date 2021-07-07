@@ -6,11 +6,12 @@ function up()
   create_table(:items) do
     [
       primary_key()
-      column(:column_name, :column_type)
+      column(:a, :string, limit=100)
+      column(:b, :int, limit = 10)
     ]
   end
 
-  add_index(:items, :column_name)
+  add_index(:items, :a)
 end
 
 function down()
