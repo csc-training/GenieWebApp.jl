@@ -1,0 +1,14 @@
+## Project
+README.md
+data
+
+## Julia
+Manifest.toml
+config/secrets.jl
+test
+
+## Git
+.git
+.gitignore
+.gitattributes
+*.gitkeep
