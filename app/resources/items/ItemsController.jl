@@ -17,19 +17,36 @@ function items_form()
 end
 
 function items_form_payload()
-    postpayload()
+    d = postpayload()
+    @show d
+    try
+        item = Item(a=d[:a], b=d[:b])
+        save(item)
+        return html("Succesful 200")
+    catch
+        return html("Error 400")
+    end
 end
 
 ## --- API ---
 
 """Get all items as JSON."""
 function items_api()
-    json(:items, :myitems, items = all(Item))
+    items = Dict("items" => all(Item))
+    json(items)
 end
 
 """Add new item through JSON payload."""
 function items_api_payload()
-    jsonpayload()
+    d = jsonpayload()
+    @show d
+    try
+        item = Item(a=d["a"], b=d["b"])
+        save(item)
+        return html("Succesful 200")
+    catch
+        return html("Error 400")
+    end
 end
 
 end

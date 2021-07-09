@@ -11,4 +11,6 @@ export Item
   b::Int = 0
 end
 
+Base.convert(::Type{Int}, s::String) = parse(Int, s)
+
 end
