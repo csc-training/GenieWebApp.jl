@@ -6,17 +6,14 @@ using Genie.Renderer.Json
 using SearchLight
 using Items
 
-"""Show all items."""
-function items_show()
+
+# --- Views ---
+
+function items_get()
     html(:items, :myitems, items = all(Item))
 end
 
-"""Show HTML form."""
-function items_form()
-    html(:items, :itemsform)
-end
-
-function items_form_payload()
+function items_post()
     d = postpayload()
     @show d
     try
@@ -28,16 +25,16 @@ function items_form_payload()
     end
 end
 
-## --- API ---
+
+# --- API ---
 
 """Get all items as JSON."""
-function items_api()
-    items = Dict("items" => all(Item))
-    json(items)
+function items_api_get()
+    json(all(Item))
 end
 
 """Add new item through JSON payload."""
-function items_api_payload()
+function items_api_post()
     d = jsonpayload()
     @show d
     try
