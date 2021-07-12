@@ -1,6 +1,7 @@
 module ItemsController
 
 using Genie.Requests
+using Genie.Renderer
 using Genie.Renderer.Html
 using Genie.Renderer.Json
 using SearchLight
@@ -19,10 +20,10 @@ function items_post()
     try
         item = Item(a=d[:a], b=d[:b])
         save(item)
-        return html("Succesful 200")
     catch
-        return html("Error 400")
+        return html(""; status=400)
     end
+    redirect(:items_get)
 end
 
 
@@ -40,9 +41,9 @@ function items_api_post()
     try
         item = Item(a=d["a"], b=d["b"])
         save(item)
-        return html("Succesful 200")
+        return html(""; status=200)
     catch
-        return html("Error 400")
+        return html(""; status=400)
     end
 end
 
