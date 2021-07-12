@@ -21,7 +21,6 @@ ENV PORT "8000"
 ENV EARLYBIND "true"
 
 RUN julia -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile(); "
-RUN julia -e "using Pkg; Pkg.activate(\".\"); using Genie; Genie.Generator.write_secrets_file()"
 
 RUN rm -rf /genie/.julia/registries
 
