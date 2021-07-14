@@ -1,14 +1,14 @@
 # Genie Web Application with SQL Database
 ## Overview
-The code in this repository demonstrates the three step for running a Julia web application on container cloud.
+The code in this repository demonstrates how to setup a Julia web application on container cloud.
 
-1. First step is to create a web application. We create a web application with [**Genie.jl**](https://genieframework.com/), a full-stack MVC web framework similar to Ruby-on-Rails and Django, and use it to demonstrate the common features of web applications.
+1. First step is to create a web application. We create a web application with [**Genie.jl**](https://genieframework.com/), a full-stack MVC web framework similar to Ruby-on-Rails and Django, and use it to demonstrate the common features of web applications. It is also possible to create Julia web applications and [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) without a framework.
 
 2. The second step is to create a container for the application and build a container image. We show how to create [**Docker**](https://www.docker.com/) containers for them.
 
-3. Third step is to deploy a container image on cloud. We demonstrate how to deploy the application with OpenShift on [**CSC Rahti**](https://rahti.csc.fi/) container cloud. [CSC](https://www.csc.fi/en/) is the Science Center for IT in Finland. OpenShift is a Kubernetes distribution, hence we should be able to deploy the application on other Kubernetes-based clouds as well.
+3. Third step is to deploy a container image on cloud. We demonstrate how to deploy the application with OpenShift on [**CSC Rahti**](https://rahti.csc.fi/) container cloud. [CSC](https://www.csc.fi/en/) is the Science Center for IT in Finland.
 
-4. Fourth step is to setup persistent storage for the application.
+4. Fourth step is to setup persistent storage for the application on Rahti.
 
 The best way to understand how web applications and their deployment on the cloud works is to develop and deploy one yourself. We assume basic knowledge of Linux, Git, Julia language and SQL databases.
 
@@ -26,7 +26,7 @@ using Genie
 Genie.newapp_mvc("WebAppDB")
 ```
 
-The generator creates file structure, configurations and adds database support. We have chosen to use SQLite database.
+The generator creates file structure, configurations and adds database support. We use SQLite database for development, testing, and production.
 
 ### Running the Application Locally
 We should install [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command. Then, we can activate the web application with Julia package manager.
@@ -178,6 +178,86 @@ Transfer-Encoding: chunked
 ## Creating a Docker Container
 ### Creating a Dockerfile
 [`Dockerfile`](./Dockerfile) defines how Docker builds a container image. We should also create a [`.dockerignore`](./.dockerignore) file which instructs Docker to ignore certain files such as automatically generated files or version control (Git) files from the Docker image.
+
+We use `julia:1.6-buster` as the base image.
+
+```Dockerfile
+FROM julia:1.6-buster
+```
+
+Then, we create `genie` user inside the container.
+
+```Dockerfile
+RUN useradd --create-home --shell /bin/bash genie
+```
+
+Next, we create `app` directory inside the `/home/genie` directory, copy the application files into it while ignoring files specified in `.dockerignore`, and change our working directory to it.
+
+```Dockerfile
+RUN mkdir /home/genie/app
+COPY . /home/genie/app
+WORKDIR /home/genie/app
+```
+
+Next, we give read, write and execution permissions and change ownership to the `genie` user with `root` group for the specified files. OpenShift requires permissions for the `root` group.
+
+```Dockerfile
+RUN chgrp root /home/genie
+RUN chown genie:root -R *
+RUN chmod -R g+rw /home/genie/app
+RUN chmod g+rwX bin/server
+RUN chmod -R g+rwX /usr/local/julia
+```
+
+Now, we change the user to `genie` with `root` group.
+
+```Dockerfile
+USER genie:root
+```
+
+We specify environment variables for the Genie application with the `ENV` directive.
+
+```Dockerfile
+ENV JULIA_DEPOT_PATH "/home/genie/.julia"
+ENV GENIE_ENV "prod"
+ENV HOST "0.0.0.0"
+ENV PORT "8000"
+ENV EARLYBIND "true"
+```
+
+Now, we can install the install the application as a Julia package inside the container.
+
+```Dockerfile
+RUN julia -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile(); "
+```
+
+We can remove the Julia registries afterward to reduce the container size.
+
+```Dockerfile
+RUN rm -rf /genie/.julia/registries
+```
+
+We also need to give the `root` group execution permissions for files inside the `.julia` directory.
+
+```Dockerfile
+RUN chmod -R -f g+rwX \
+    /home/genie/.julia/packages \
+    /home/genie/.julia/artifacts \
+    /home/genie/.julia/compiled \
+    /home/genie/.julia/logs
+```
+
+We will expose the container to networking using port `8000` via TCP.
+
+```Dockerfile
+EXPOSE 8000/tcp
+```
+
+Finally, we set the container to execute the `bin/server` script to start the web server when we run the container.
+
+```Dockerfile
+CMD ["bin/server"]
+```
 
 ### Building a Docker Image Locally
 We should begin by [installing Docker](https://docs.docker.com/get-docker/). Then, we can build a Docker image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with name such as `genie` and `<tag>` with `dev`.

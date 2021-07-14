@@ -1,4 +1,4 @@
-FROM julia:1.6
+FROM julia:1.6-buster
 
 RUN useradd --create-home --shell /bin/bash genie
 
