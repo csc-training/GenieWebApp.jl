@@ -29,12 +29,10 @@ end
 
 # --- API ---
 
-"""Get all items as JSON."""
 function items_api_get()
     json(all(Item))
 end
 
-"""Add new item through JSON payload."""
 function items_api_post()
     d = jsonpayload()
     @show d
