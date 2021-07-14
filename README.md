@@ -18,7 +18,7 @@ We can expose the web application to the internet by deploying it on a cloud pla
 
 
 ## Developing a Genie Web Application
-### Creating an Application
+### Creating MCV Application
 We can create a new Genie MCV application using Genie's generator as follows.
 
 ```julia
@@ -44,17 +44,19 @@ using Genie; Genie.loadapp(; autostart=true)
 The local web server should be running on [http://localhost:8000/](http://localhost:8000/) and we can open it in the browser.
 
 ### Adding Items Resource
-We also have created the `Items` resource using a generator.
+We can create new resources using the `new_resource` function. We will create a resource named `Items`.
 
 ```julia
 Genie.new_resource("Items")
 ```
 
-The items are created to [`app/resources/items/`](./app/resources/items) directory.
+The function generates three files for the `Items` resource to [`app/resources/items/`](./app/resources/items) directory:
 
-- `Items.jl`
-- `ItemsController.jl`
-- `ItemsValidator.jl`
+1. `Items.jl` contains the database models,
+2. `ItemsController.jl` contains functions for handling requests by the users, and
+3. `ItemsValidator.jl` handles database validation.
+
+Inside `Items.jl`, we have created `Item` model, a mapping between objects in database and Julia structs.
 
 ```julia
 import SearchLight: AbstractModel, DbId
@@ -67,12 +69,13 @@ import Base: @kwdef
 end
 ```
 
-TODO: Migrations
-
 ### Database Configurations
-The generator adds `SearchLight` and `SearchLightSQLite` to dependencies.
+Genie stores database configurations to [`db/`](./db) directory. The [`connection.yml`](./db/connection.yml) file stores the configurations for `adapter`, `database` (location), `host`, `port`, `username`, `password`, and `config`.
 
-Genie stores database configurations to [`db/`](./db) directory. The [`connection.yml`](./db/connection.yml) file stores configurations such as the adapter and database location. For example, `SQLite` and `data/database.sqlite` in this application.
+For SQLite, we set
+
+- `adapter: SQLite`
+- `basebase: data/database.sqlite`.
 
 We can setup database tables if they don't exist with the following script.
 
@@ -80,8 +83,10 @@ We can setup database tables if they don't exist with the following script.
 using SearchLight
 using SearchLightSQLite
 
+# Connect to database
 SearchLight.Configuration.load() |> SearchLight.connect
 try
+    # Run migrations if they don't exist
     SearchLight.Migrations.create_migrations_table()
     SearchLight.Migrations.last_up()
 catch
