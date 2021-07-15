@@ -45,7 +45,7 @@ using Genie; Genie.loadapp(; autostart=true)
 
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
 
-### Adding Items Resource
+### Adding Items Resource and Routing
 We can create new resources using the `new_resource` function. We will create a resource named `Items`.
 
 ```julia
@@ -71,13 +71,21 @@ import Base: @kwdef
 end
 ```
 
+We define routes in the [`routes.jl`](./routes.jl) file, which are mapped to the static files in [`public`](./public) and dynamic resources in [`app/resources`](./app/resources). When a server is running, making a request on a route invokes the corresponding handler function in the resources and returns a response based on its output.
+
 ### Database Configurations
-Genie stores database configurations to [`db/`](./db) directory. The [`connection.yml`](./db/connection.yml) file stores the configurations for `adapter`, `database` (location), `host`, `port`, `username`, `password`, and `config`.
+Genie stores database configurations to [`db/`](./db) directory. For example, we can add configuration for SQLite on `dev` environment to [`connection.yml`](./db/connection.yml) file as follows:
 
-For SQLite, we set
-
-- `adapter: SQLite`
-- `basebase: data/database.sqlite`.
+```yaml
+dev:
+  adapter: SQLite
+  database: data/database.sqlite
+  host:
+  username:
+  password:
+  port:
+  config:
+```
 
 We can set up database tables if they don't exist with the following script.
 
@@ -98,9 +106,7 @@ end
 
 We have added it to the global configurations, [`config/env/global.jl`](./config/env/global.jl).
 
-### Routing and Accessing Resources
-We define routes in the [`routes.jl`](./routes.jl) file, which are mapped to the static files in [`public`](./public) and dynamic resources in [`app/resources`](./app/resources). When a server is running, making a request on a route invokes the corresponding handler function in the resources and returns a response based on its output.
-
+### Testing Requests with HTTP.jl
 We can make requests to the server by accessing URLs in the browser or by sending requests to the server via the HTTP.jl library on the Julia REPL.
 
 ```julia
