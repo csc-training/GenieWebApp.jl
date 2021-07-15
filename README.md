@@ -10,9 +10,7 @@ In this repository, we explore how to build a Julia web application using the [*
 
 2. Next, we explain how to create a Docker container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux.
 
-3. Then, we can deploy the container image on the cloud. We demonstrate how to deploy the application with OpenShift on CSC Rahti.
-
-4. Finally, we explain how to set up persistent storage for the application.
+3. Then, we can deploy the container image on the cloud. We demonstrate how to deploy the application and set up persistent storage with OpenShift on CSC Rahti.
 
 We assume basic knowledge of Linux, Git, Julia language, and SQL databases. We recommend that you try to run and deploy the web application using the instructions below.
 
