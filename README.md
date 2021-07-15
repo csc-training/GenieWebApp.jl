@@ -1,16 +1,20 @@
 # Genie Web Application with SQL Database
-## Motivation
-We believe in the growing interest in running Julia programs on the cloud. Julia language is popular among scientists due to its high performance and expressive syntax. Scientists often run their programs as batch jobs on computer clusters such as [CSC Puhti or Mahti](https://docs.csc.fi/computing/overview/). However, modern scientific computing and data science may require event-driven computing, such as processing data streams from sensors or performing on-demand computations like image manipulation. Therefore, the program has to continuously serve multiple simultaneous users in different geographic locations by processing inputs, performing computations, and producing outputs. We can solve this problem by developing a web application or microservice with a REST API around the program to interact with it. Then, we can expose the web application to the internet by deploying it on a cloud platform as a container. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux.
+## Introduction
+[Julia language](https://julialang.org/) is a relatively new, general-purpose programming language designed to address challenges in technical computing such as the *expression problem* and the *two-language problem*. It addresses the expression problem using multiple-dispatch as a paradigm that enables highly expressive syntax and composable code and the two-language problem using just-in-time compilation to create high-performance code. For these reasons, the Julia language is gaining popularity in scientific computing and data analysis because it offers significant improvements in performance and composability. That is, how existing code and libraries work with one another.
 
+Traditionally, scientific computing programs run without user interaction as batch jobs on computer clusters and supercomputers such as [CSC Puhti or Mahti](https://docs.csc.fi/computing/overview/). However, modern scientific computing and data analytics increasingly requires user interaction. For example, an analytics application may receive data from multiple sources over the internet, process the data, perform analysis, store results, and offer them to end-users on demand via an API. We can expose the analytics application over the internet as an on-demand service by wrapping it inside a web application or microservice, containerizing it, and deploying it into a cloud platform. Given the advantages of the Julia language, it would be natural to develop the analytics application and the web application or microservice around the application in Julia.
 
-## Overview
-The code in this repository demonstrates how to set up a Julia web application on a container cloud.
+[Julia language](https://julialang.org/) is a relatively new, general-purpose programming language designed to address challenges in technical computing such as the *expression problem* and the *two-language problem*. It addresses the expression problem using multiple-dispatch as a paradigm that enables highly expressive syntax and composable code and the two-language problem using just-in-time compilation to create high-performance code. For these reasons, the Julia language is gaining popularity in scientific computing and data analysis because it offers significant improvements in performance and composability. That is, how existing code and libraries work with one another.
 
-1. First, we explain how to create and use a web application. We create a web application with [**Genie.jl**](https://genieframework.com/), a full-stack MVC web framework similar to Ruby-on-Rails and Django, and use it to demonstrate the common features of web applications. It is also possible to create Julia web applications and [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) without a framework.
+Traditionally, scientific computing programs run without user interaction as batch jobs on computer clusters and supercomputers such as [CSC Puhti or Mahti](https://docs.csc.fi/computing/overview/). However, modern scientific computing and data analytics increasingly requires user interaction. For example, an analytics application may receive data from multiple sources over the internet, process the data, perform analysis, store results, and offer them to end-users on demand via an API. We can expose the analytics application over the internet as an on-demand service by wrapping it inside a web application or microservice, containerizing it, and deploying it into a cloud platform. Given the advantages of the Julia language, it would be natural to develop the analytics application and the web application or microservice around the application in Julia.
 
-2. Next, we explain how to create a [**Docker**](https://www.docker.com/) container for the application and how to build and run a container image.
+In this repository, we explore how to build a Julia web application using the [**Genie framework**](https://genieframework.com/), create a [**Docker**](https://www.docker.com/) container for the application, and deploy it on [**CSC Rahti**](https://rahti.csc.fi/), a container cloud operated by [CSC](https://www.csc.fi/en/), the Science Center for IT in Finland. We have structured the sections in the following way:
 
-3. Then, we can deploy the container image on the cloud. We demonstrate how to deploy the application with OpenShift on [**CSC Rahti**](https://rahti.csc.fi/), a container cloud operated by [CSC](https://www.csc.fi/en/), the Science Center for IT in Finland.
+1. First, we explain how to create and use a web application. We create a web application with Genie, a full-stack MVC web framework similar to Ruby-on-Rails and Django, and use it to demonstrate the common features of web applications. It is also possible to create Julia [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) without using a framework.
+
+2. Next, we explain how to create a Docker container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux.
+
+3. Then, we can deploy the container image on the cloud. We demonstrate how to deploy the application with OpenShift on CSC Rahti.
 
 4. Finally, we explain how to set up persistent storage for the application.
 
@@ -18,18 +22,22 @@ We assume basic knowledge of Linux, Git, Julia language, and SQL databases. We r
 
 
 ## 1. Developing a Genie Web Application
+> Currently, Genie version is pinned to `v1.18.1` in [Project.toml](./Project.toml) compatibility, because `v2` causes [world age error](https://docs.julialang.org/en/v1/manual/methods/#Redefining-Methods-1) inside a Docker container for unknown reasons.
+
+### Installing Julia Language
+We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
+
 ### Creating MCV Application
-We can create a new Genie MCV application using Genie's generator as follows.
+We can create a new Genie Model-View-Controller (MCV) application using Genie's generator as follows.
 
 ```julia
-using Genie
-Genie.newapp_mvc("WebAppDB")
+using Genie; Genie.newapp_mvc("WebAppDB")
 ```
 
 The generator creates file structure, configurations and adds database support. We use the SQLite database for development, testing, and production.
 
 ### Running the Application Locally
-We should install [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command. Then, we can activate the web application with Julia package manager.
+We can activate the web application with Julia's built-in package manager.
 
 ```julia
 using Pkg; Pkg.activate(".")
