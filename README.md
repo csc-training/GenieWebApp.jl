@@ -6,11 +6,11 @@ Traditionally, scientific computing programs run without user interaction as bat
 
 In this repository, we explore how to build a Julia web application using the [**Genie framework**](https://genieframework.com/), create a [**Docker**](https://www.docker.com/) container for the application, and deploy it on [**CSC Rahti**](https://rahti.csc.fi/), a container cloud operated by [CSC](https://www.csc.fi/en/), the Science Center for IT in Finland. We have structured the sections in the following way:
 
-1. First, we explain how to create and use a web application. We create a web application with Genie, a full-stack MVC web framework similar to Ruby-on-Rails and Django, and use it to demonstrate the common features of web applications. It is also possible to create Julia [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) without using a framework.
+1. **Develop a web application**: We begin by explaining how to create a web application with Genie, a full-stack Model-View-Controller (MVC) web framework similar to Ruby-on-Rails and Django. Then, we explore how the MVC web application operates and create a [REST API](https://restfulapi.net/). For a more general overview of best practices of developing web applications, we recommend [The Twelve-Factor App](https://12factor.net/) guidelines. As a side note, it is also possible to develop Julia [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) without using a framework if you need more control over your application.
 
-2. Next, we explain how to create a Docker container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux.
+2. **Containerize the application**: Next, we explain how to create a Docker container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux.
 
-3. Then, we can deploy the container image on the cloud. We demonstrate how to deploy the application and set up persistent storage with OpenShift on CSC Rahti.
+3. **Deploy the containerized application to a cloud platform**: Then, we can deploy the container image on the cloud. We demonstrate how to deploy the application and set up persistent storage with OpenShift on CSC Rahti.
 
 We assume basic knowledge of Linux, Git, Julia language, and SQL databases. We recommend that you try to run and deploy the web application using the instructions below.
 
@@ -22,13 +22,13 @@ We assume basic knowledge of Linux, Git, Julia language, and SQL databases. We r
 We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
 
 ### Creating MCV Application
-We can create a new Genie Model-View-Controller (MCV) application using Genie's generator as follows.
+We can create a new Genie Model-View-Controller (MCV) application using Genie's generator. The structure for this application is generated as follows:
 
 ```julia
 using Genie; Genie.newapp_mvc("WebAppDB")
 ```
 
-The generator creates file structure, configurations and adds database support. We use the SQLite database for development, testing, and production.
+The generator creates file structure, configurations and adds database support. We use the [SQLite](https://www.sqlite.org/index.html) database for development, testing, and production.
 
 ### Running the Application Locally
 We can activate the web application with Julia's built-in package manager.
