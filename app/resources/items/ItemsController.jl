@@ -7,14 +7,16 @@ using Genie.Renderer.Json
 using SearchLight
 using Items
 
+export items
+
 
 # --- Views ---
 
-function items_get()
+function items(::Val{:view}, ::Val{:GET})
     html(:items, :myitems, items = all(Item))
 end
 
-function items_post()
+function items(::Val{:view}, ::Val{:POST})
     d = postpayload()
     @show d
     try
@@ -29,19 +31,19 @@ end
 
 # --- API ---
 
-function items_api_get()
+function items(::Val{:api}, ::Val{:GET})
     json(all(Item))
 end
 
-function items_api_post()
+function items(::Val{:api}, ::Val{:POST})
     d = jsonpayload()
     @show d
     try
         item = Item(a=d["a"], b=d["b"])
         save(item)
-        return html(""; status=200)
+        return json(""; status=200)
     catch
-        return html(""; status=400)
+        return json(""; status=400)
     end
 end
 
