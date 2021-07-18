@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Genie :: The Highly Productive Julia Web Framework</title>
-  </head>
-  <body>
-    <%
-      @yield
-    %>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Genie :: The Highly Productive Julia Web Framework</title>
+
+  <!-- Bootstrap -->
+  <link href="/css/genie/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/genie/style.css" rel="stylesheet">
+  <link href="/css/genie/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <%
+    @yield
+  %>
+
+  <script src="/js/genie/jquery.min.js"></script>
+  <script src="/js/genie/bootstrap.min.js"></script>
+  <script src="/js/genie/prism.js"></script>
+</body>
+
 </html>

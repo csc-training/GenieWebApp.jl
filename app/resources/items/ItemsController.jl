@@ -13,7 +13,7 @@ export items
 # --- Views ---
 
 function items(::Val{:view}, ::Val{:GET})
-    html(:items, :myitems, items = all(Item))
+    html(:items, :item_list; items = all(Item))
 end
 
 function items(::Val{:view}, ::Val{:POST})
@@ -26,6 +26,19 @@ function items(::Val{:view}, ::Val{:POST})
         return html(""; status=400)
     end
     redirect(:items_get)
+end
+
+function items(::Val{:view}, ::Val{:GET}, id)
+    item = findone(Item; id = id)
+    if isnothing(item)
+        html(""; status = 400)
+    else
+        html(:items, :item; item = item)
+    end
+end
+
+function items(::Val{:view}, ::Val{:POST}, id)
+    html("")
 end
 
 
@@ -46,5 +59,18 @@ function items(::Val{:api}, ::Val{:POST})
         return json(""; status=400)
     end
 end
+
+function items(::Val{:api}, ::Val{:GET}, id)
+    json(""; status=200)
+end
+
+function items(::Val{:api}, ::Val{:PUT}, id)
+    json(""; status=200)
+end
+
+function items(::Val{:api}, ::Val{:DELETE}, id)
+    json(""; status=200)
+end
+
 
 end

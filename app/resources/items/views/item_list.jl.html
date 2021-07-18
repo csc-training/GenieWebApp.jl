@@ -1,0 +1,20 @@
+<div class="container fluid">
+  <h1>Items</h1>
+
+  <h2>Add Item</h2>
+  <form action="/items" method="POST" enctype="multipart/form-data">
+      <input type="text" name="a" value="" placeholder="String" />
+      <input type="text" name="b" value="" placeholder="Int" />
+      <input type="submit" value="Submit" />
+  </form>
+
+  <h2>All Items</h2>
+  <ul>
+    <% @foreach(items) do item %>
+      <li>
+        <a href="/items/$(item.id)">/items/$(item.id)</a> |
+        <code>$(item)</code>
+      </li>
+    <% end %>
+  </ul>
+</div>
