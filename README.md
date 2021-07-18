@@ -31,7 +31,13 @@ using Genie; Genie.newapp_mvc("WebAppDB")
 The generator creates file structure, configurations and adds database support. We use the [SQLite](https://www.sqlite.org/index.html) database for development, testing, and production.
 
 ### Running the Application Locally
-We can activate the web application with Julia's built-in package manager.
+We should `instantiate` the web application to install it locally with Julia's built-in package manager when running it for the first time.
+
+```julia
+using Pkg; Pkg.instantiate()
+```
+
+Then, we can `activate` the web application.
 
 ```julia
 using Pkg; Pkg.activate(".")
