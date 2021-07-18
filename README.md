@@ -16,8 +16,6 @@ We assume basic knowledge of Linux, Git, Julia language, and SQL databases. We r
 
 
 ## 1. Developing a Genie Web Application
-> Currently, Genie version is pinned to `v1.18.1` in [Project.toml](./Project.toml) compatibility, because `v2` causes [world age error](https://docs.julialang.org/en/v1/manual/methods/#Redefining-Methods-1) inside a Docker container for unknown reasons.
-
 ### Installing Julia Language
 We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
 
