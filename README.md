@@ -43,10 +43,16 @@ Then, we can `activate` the web application.
 using Pkg; Pkg.activate(".")
 ```
 
-Next, let's import Genie and use the `loadapp` function with `autostart` option true to run a local web server.
+Next, let's import Genie and use the `loadapp` function for developing and running the application.
 
 ```julia
-using Genie; Genie.loadapp(; autostart=true)
+using Genie; Genie.loadapp(".")
+```
+
+Now, we can use the `up` function to run a local web server.
+
+```julia
+up()
 ```
 
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
@@ -178,7 +184,7 @@ We can also send a JSON-formatted POST request to the `/api/items`, which will b
 ```julia
 HTTP.request("POST", "$domain/api/items",
     [("Content-Type", "application/json")],
-    """{"a":"Hello World","b":"1"}""")
+    """{"a":"Hello World", "b":"1"}""")
 ```
 
 ```

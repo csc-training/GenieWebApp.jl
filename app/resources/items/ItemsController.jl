@@ -25,7 +25,7 @@ function items(::Val{:view}, ::Val{:POST})
     catch
         return html(""; status=400)
     end
-    redirect(:items_get)
+    redirect(:get_items)
 end
 
 function items(::Val{:view}, ::Val{:GET}, id)

@@ -10,7 +10,7 @@
 
   <h2>All Items</h2>
   <ul>
-    <% @foreach(items) do item %>
+    <% for_each(items) do item %>
       <li>
         <a href="/items/$(item.id)">/items/$(item.id)</a> |
         <code>$(item)</code>
