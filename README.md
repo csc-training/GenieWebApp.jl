@@ -1,4 +1,29 @@
 # Genie Web Application with SQL Database
+<!-- TOC depthFrom:2 depthTo:3 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Introduction](#introduction)
+- [Developing a Genie Web Application](#developing-a-genie-web-application)
+	- [Installing Julia Language](#installing-julia-language)
+	- [Creating MCV Application](#creating-mcv-application)
+	- [Running the Application Locally](#running-the-application-locally)
+	- [Adding Resources and Routing](#adding-resources-and-routing)
+	- [Configuring a Database](#configuring-a-database)
+	- [Testing Requests with HTTP.jl](#testing-requests-with-httpjl)
+- [Creating a Docker Container](#creating-a-docker-container)
+	- [Creating a Dockerfile](#creating-a-dockerfile)
+	- [Building a Docker Image Locally](#building-a-docker-image-locally)
+- [Deploying to Container Cloud using OpenShift](#deploying-to-container-cloud-using-openshift)
+	- [Creating a CSC Project](#creating-a-csc-project)
+	- [Pushing the Docker Image to Rahti Container Registry](#pushing-the-docker-image-to-rahti-container-registry)
+	- [Deploying the Container Image from Rahti Console](#deploying-the-container-image-from-rahti-console)
+	- [Setting Up Persistent Storage from Rahti Console](#setting-up-persistent-storage-from-rahti-console)
+- [Deploying to Virtual Machine using OpenStack](#deploying-to-virtual-machine-using-openstack)
+	- [Creating a CSC Project](#creating-a-csc-project)
+	- [Setting up and Connecting to a Virtual Machine](#setting-up-and-connecting-to-a-virtual-machine)
+	- [Installing the Genie Web Application](#installing-the-genie-web-application)
+
+<!-- /TOC -->
+
 ## Introduction
 [**Julia language**](https://julialang.org/) is a relatively new, general-purpose programming language designed to address challenges in technical computing such as the *expression problem* and the *two-language problem*. It addresses the expression problem using multiple-dispatch as a paradigm that enables highly expressive syntax and composable code and the two-language problem using just-in-time compilation to create high-performance code. For these reasons, the Julia language is gaining popularity in scientific computing and data analysis because it offers significant improvements in performance and composability. That is, how existing code and libraries work with one another.
 
@@ -59,7 +84,7 @@ up()
 
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
 
-### Adding Items Resource and Routing
+### Adding Resources and Routing
 We can create new resources using the `new_resource` function. We will create a resource named `Items`.
 
 ```julia
@@ -87,7 +112,7 @@ end
 
 We define routes in the [`routes.jl`](./routes.jl) file, which are mapped to the static files in [`public`](./public) and dynamic resources in [`app/resources`](./app/resources). When a server is running, making a request on a route invokes the corresponding handler function in the resources and returns a response based on its output.
 
-### Database Configurations
+### Configuring a Database
 Genie stores database configurations to [`db/`](./db) directory. For example, we can add configuration for SQLite on `dev` environment to [`connection.yml`](./db/connection.yml) file as follows:
 
 ```yaml
@@ -340,3 +365,67 @@ We can set up [persistent storage](https://docs.csc.fi/cloud/rahti/storage/persi
     - *Mount path*: `/home/genie/app/data`
 
 Application on Docker container is mounted to `/home/genie/app/`.
+
+
+## Deploying to Virtual Machine using OpenStack
+### Creating a CSC Project
+We should create a new project on [**My CSC**](https://my.csc.fi) and [apply for access to Pouta](https://docs.csc.fi/accounts/how-to-add-service-access-for-project/).
+
+### Setting up and Connecting to a Virtual Machine
+Once we have been granted access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the intructions on [Launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
+
+- Set up SSH keys
+- Set up firewalls and security groups
+- Launch virtual machine with Ubuntu 20.04 image
+- Add public IP
+- Add [persistent storage](https://docs.csc.fi/cloud/pouta/persistent-volumes/)
+
+We can connect to our virtual machine by following the intructions on [Connecting to your virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/).
+
+```bash
+ssh ubuntu@<public-ip> -i ~/.ssh/<keyfile>.pem
+```
+
+Substitute `<public-ip>` and `<keyfile>`.
+
+### Installing the Genie Web Application
+```bash
+URL="https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz"
+ARCHIVE="julia.tar.gz"
+
+# Download the Julia language
+curl -o ${ARCHIVE} ${URL}
+
+# Uncompress (-z) and extract (-z) files (-f) from archive
+tar -x -z -f ${ARCHIVE}
+
+# Remove the archive file after extraction
+rm ${ARCHIVE}
+
+# Add Julia executable to the Path in `.bashrc`
+echo 'export PATH="${PATH}:${HOME}/julia-1.6.2/bin"' >> .bashrc
+
+# Add Julia executable to the Path
+export PATH="${PATH}:${HOME}/julia-1.6.2/bin"
+
+# Clone Genie application
+git clone "https://github.com/jaantollander/genie-webapp-db.git"
+
+# Change directory to genie-webapp-db
+cd "genie-webapp-db"
+
+# Install genie-webapp-db as Julia package
+julia -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile(); "
+
+# Setup Genie environment variables
+export GENIE_ENV="prod"
+export HOST="0.0.0.0"
+export PORT="8000"
+export EARLYBIND="true"
+
+# Give execution privileges to `bin/server` script
+chmod +x bin/server
+
+# Execute `./bin/server` script
+bin/server
+```
