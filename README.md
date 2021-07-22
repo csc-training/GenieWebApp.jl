@@ -6,13 +6,15 @@ Traditionally, scientific computing programs run without user interaction as bat
 
 In this repository, we explore how to build a Julia web application using the Genie framework and deploying it to a container-based cloud with [OpenShift](https://www.openshift.com/) and a virtual machine-based cloud with [OpenStack](https://www.openstack.org/). We will use the *Rahti* and *Pouta* cloud [computing resources](https://research.csc.fi/computing) provided by *CSC*, the Science Center for IT in Finland. Their documentation explains the main [concepts of cloud computing](https://docs.csc.fi/cloud/concepts/), such as how cloud computing differs from traditional hosted services and high-performance computing, and basic terminology such as infrastructure-, platform-, and software-as-service.
 
-These intructions assume basic knowledge of Linux, Git, Julia language, and SQL databases. We have structured the sections in the following way:
+These intructions assume basic knowledge of Linux, Git, Julia language, and SQL databases. We recommend reading the [Linux basics tutorial](https://docs.csc.fi/support/tutorials/env-guide/overview/) for understanding basic Linux command line usage. We have structured the sections in the following way:
 
 1. **Developing a Genie Web Application**: In this section, we explain how to create a web application with [**Genie framework**](https://genieframework.com/), a full-stack [Model-View-Controller (MVC)](https://www.youtube.com/watch?v=DUg2SWWK18I) web framework similar to Ruby-on-Rails and Django. Then, we explore how the MVC web application operates and create a [REST API](https://restfulapi.net/). For a general resource about web development, we recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/) and for an overview of best practices of developing web applications, we recommend [The Twelve-Factor App](https://12factor.net/) guidelines. As a side note, it is also possible to develop Julia [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) without using a framework if you need more control over your application.
 
 2. **Creating a Docker Container**: In this section, we explain how to create a [**Docker**](https://www.docker.com/) container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux.
 
-3. **Deploying a Container Image using OpenShift**: In this section, we explain how to deploy the application from a container image to the [**Rahti**](https://rahti.csc.fi/) cloud service using OpenShift. We also show how to set persistent storage for the application.
+3. **Deploying to Container Cloud using OpenShift**: In this section, we explain how to deploy the application from a container image to the [**Rahti**](https://rahti.csc.fi/) cloud service using OpenShift. We also show how to set persistent storage for the application.
+
+4. **Deploying to Virtual Machine using OpenStack**: In this section, we explain how to deploy the application from source to a virtual machine on the [**Pouta**](https://pouta.csc.fi/) cloud service using OpenStack. We also show how to set persistent storage for the application.
 
 We recommend that you try to run and deploy the web application using the instructions below.
 
@@ -295,7 +297,7 @@ sudo docker run -it -p 8000:8000 --rm <name>:<tag>
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
 
 
-## Deploying a Container Image using OpenShift
+## Deploying to Container Cloud using OpenShift
 > These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
 
 ### Creating a CSC Project
