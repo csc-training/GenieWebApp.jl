@@ -389,7 +389,7 @@ ssh ubuntu@<public-ip> -i ~/.ssh/<keyfile>.pem
 Substitute `<public-ip>` and `<keyfile>`.
 
 ### Installing the Genie Web Application
-Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line.
+Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line. Let's begin by installing Julia language.
 
 ```bash
 # Change directory to home directory
@@ -415,7 +415,11 @@ echo 'export PATH="${PATH}:${HOME}/julia-1.6.2/bin"' >> .bashrc
 
 # Add Julia executable to the PATH
 export PATH="${PATH}:${HOME}/julia-1.6.2/bin"
+```
 
+Next we can install our Genie web application from GitHub.
+
+```bash
 # Clone the Genie application from GitHub repository
 git clone "https://github.com/jaantollander/genie-webapp-db.git"
 
