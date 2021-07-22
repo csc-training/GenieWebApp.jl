@@ -372,7 +372,7 @@ Application on Docker container is mounted to `/home/genie/app/`.
 We should create a new project on [**My CSC**](https://my.csc.fi) and [apply for access to Pouta](https://docs.csc.fi/accounts/how-to-add-service-access-for-project/).
 
 ### Setting up and Connecting to a Virtual Machine
-Once we have been granted access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the intructions on [Launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
+Once we have been granted access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the intructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
 
 - Set up SSH keys
 - Set up firewalls and security groups
@@ -380,7 +380,7 @@ Once we have been granted access to Pouta, we should log in to the [**Pouta Web 
 - Add public IP
 - Add [persistent storage](https://docs.csc.fi/cloud/pouta/persistent-volumes/)
 
-We can connect to our virtual machine by following the intructions on [Connecting to your virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/).
+We can connect to our virtual machine by following the intructions on [connecting to your virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/).
 
 ```bash
 ssh ubuntu@<public-ip> -i ~/.ssh/<keyfile>.pem
@@ -389,26 +389,34 @@ ssh ubuntu@<public-ip> -i ~/.ssh/<keyfile>.pem
 Substitute `<public-ip>` and `<keyfile>`.
 
 ### Installing the Genie Web Application
-```bash
-URL="https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz"
-ARCHIVE="julia.tar.gz"
+Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line.
 
-# Download the Julia language
-curl -o ${ARCHIVE} ${URL}
+```bash
+# Change directory to home directory
+cd ~
+
+# Set URL for downloading Julia binaries
+JULIA_URL="https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz"
+
+# Set name for the downloaded archive
+JULIA_ARCHIVE="julia.tar.gz"
+
+# Download the Julia language binaries
+curl -o ${JULIA_ARCHIVE} ${JULIA_URL}
 
 # Uncompress (-z) and extract (-z) files (-f) from archive
-tar -x -z -f ${ARCHIVE}
+tar -x -z -f ${JULIA_ARCHIVE}
 
 # Remove the archive file after extraction
-rm ${ARCHIVE}
+rm ${JULIA_ARCHIVE}
 
-# Add Julia executable to the Path in `.bashrc`
+# Add Julia executable to the PATH in `.bashrc`
 echo 'export PATH="${PATH}:${HOME}/julia-1.6.2/bin"' >> .bashrc
 
-# Add Julia executable to the Path
+# Add Julia executable to the PATH
 export PATH="${PATH}:${HOME}/julia-1.6.2/bin"
 
-# Clone Genie application
+# Clone the Genie application from GitHub repository
 git clone "https://github.com/jaantollander/genie-webapp-db.git"
 
 # Change directory to genie-webapp-db
@@ -425,7 +433,18 @@ export EARLYBIND="true"
 
 # Give execution privileges to `bin/server` script
 chmod +x bin/server
+```
 
-# Execute `./bin/server` script
+Next we need to create a new [Linux Screen](https://linuxize.com/post/how-to-use-linux-screen/) for running the web server as a background process.
+
+```bash
+screen -S genie
+```
+
+On the new screen, let's execute `./bin/server` script to start a server.
+
+```bash
 bin/server
 ```
+
+We can exit the screen by holding `Ctrl` and pressing `a` and then `d` key. We can retach the screen again by using `screen -r genie` command if we need to.
