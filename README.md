@@ -372,10 +372,10 @@ Application on Docker container is mounted to `/home/genie/app/`.
 We should create a new project on [**My CSC**](https://my.csc.fi) and [apply for access to Pouta](https://docs.csc.fi/accounts/how-to-add-service-access-for-project/).
 
 ### Setting up and Connecting to a Virtual Machine
-Once we have been granted access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the intructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
+Once we have access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the instructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
 
 #### Setting up SSH Keys
-We can create SSH keys in the web interface by navigating to *Compute*, then *Key Pairs* and selecting *Create Key Pair*. Give the key pair name `<keyname>` and save the downloaded `<keyname>.pem` file to your home directory. Then, on the command line, move to home directory, create `.ssh` directory with write privileges if it doesn't exist, and move your key file into it.
+We can create SSH keys in the web interface by navigating to *Compute*, then *Key Pairs* and selecting *Create Key Pair*. Next, give the key pair name `<keyname>` and save the downloaded `<keyname>.pem` file to your home directory. Then, on the command line, move to the home directory, create `.ssh` directory with write privileges if it doesn't exist, and move your key file into it.
 
 ```bash
 cd ~
@@ -402,7 +402,7 @@ We can set up firewalls and security groups by navigating to *Network*, then *Se
 - Remote: `CIDR`
 - CIDR: `<ip-address>/24`. Substitute `<ip-address>` with your IP address which you can find out from [myipaddress.com](http://www.myipaddress.com/).
 
-Next, we need to create a security group named `Internet` to allow traffic from the internet to our web application. Let's add a rule with the following parameters to the group.
+Next, we need to allow traffic from the internet to our web application. Let's create a security group named `Internet` and add a rule with the following parameters.
 
 - Rule: `Custom TCP Rule`
 - Direction: `Ingress`
@@ -413,9 +413,9 @@ Next, we need to create a security group named `Internet` to allow traffic from 
 - CIDR: `0.0.0.0/0`
 
 #### Launching a Virtual Machine
-To launch a virtual machine with *Ubuntu 20.04* operating system, let's navigate to *Compute*, then *Instances*, and select *Launch Instance*.
+To launch a virtual machine with the *Ubuntu 20.04* operating system, let's navigate to *Compute*, then *Instances*, and select *Launch Instance*.
 
-In *Details* tab
+In the *Details* tab
 
 - Availability Zone: `nova`
 - Instance Name: `genie`
@@ -430,7 +430,7 @@ In *Access & Security* tab
 - Security Groups: `SSH`, `Internet`
 
 #### Adding a Public IP
-Associating the virtual machine with a public IP allows users to connect to it with the methods we have set on the security groups. To create and associate a public IP, navigate to the menu next to *Create Snapshot* and select *Associate Floating IP*. On the *IP Address* field, click the *plus* sign to allocate a new floating IP. Once allocated, select the created floating IP and press *Associate*. We denote the value of the floating IP as `<public-ip>`.
+Associating the virtual machine with a public IP allows users to connect to it with the methods we have set on the security groups. To create and associate a public IP, navigate to the menu next to *Create Snapshot* and select *Associate Floating IP*. Then, on the *IP Address* field, click the *plus* sign to allocate a new floating IP. Once allocated, select the created floating IP and press *Associate*. We denote the value of the floating IP as `<public-ip>`.
 
 #### Adding Persistent Storage
 We can also [persistent storage](https://docs.csc.fi/cloud/pouta/persistent-volumes/) to the virtual machine by navigating to *Volumes*, then *Volumes*, and selecting *Create Volume* with the following parameters:
@@ -441,7 +441,7 @@ We can also [persistent storage](https://docs.csc.fi/cloud/pouta/persistent-volu
 - Size: `1 GiB`
 - Availability Zone: `nova`
 
-From menu next to *Edit Volume*, select *Manage Attachements* and then attach volume to the `genie` virtual machine.
+From the menu next to *Edit Volume*, select *Manage Attachments* and then attach the volume to the `genie` virtual machine.
 
 #### Connecting to the Virtual Machine
 Now, we can [connect to our virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/) using SSH.
@@ -451,7 +451,7 @@ ssh ubuntu@<public-ip> -i ~/.ssh/<keyname>.pem
 ```
 
 ### Installing the Genie Web Application
-Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line. Let's begin by installing Julia language.
+Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line. So let's begin by installing the Julia language.
 
 ```bash
 # Change directory to home directory
@@ -479,10 +479,10 @@ echo 'export PATH="${PATH}:${HOME}/julia-1.6.2/bin"' >> .bashrc
 export PATH="${PATH}:${HOME}/julia-1.6.2/bin"
 ```
 
-Next we can install our Genie web application from GitHub.
+Next, we can install our Genie web application from GitHub.
 
 ```bash
-# Clone the Genie application from GitHub repository
+# Clone the Genie application from the GitHub repository
 git clone "https://github.com/jaantollander/genie-webapp-db.git"
 
 # Change directory to genie-webapp-db
@@ -501,16 +501,16 @@ export EARLYBIND="true"
 chmod +x bin/server
 ```
 
-Next we need to create a new [Linux Screen](https://linuxize.com/post/how-to-use-linux-screen/) for running the web server as a background process.
+Next, we need to create a new [Linux Screen](https://linuxize.com/post/how-to-use-linux-screen/) for running the web server as a background process.
 
 ```bash
 screen -S genie
 ```
 
-On the new screen, let's execute `./bin/server` script to start a server.
+On the new screen, let's execute the`./bin/server` script to start a server.
 
 ```bash
 bin/server
 ```
 
-We can exit the screen by holding `Ctrl` and pressing `a` and then `d` key. We can retach the screen again by using `screen -r genie` command if we need to.
+We can exit the screen by holding `Ctrl` and pressing `a` and then `d` key. We can retach the screen again by using the `screen -r genie` command if we need to.
