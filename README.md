@@ -374,19 +374,81 @@ We should create a new project on [**My CSC**](https://my.csc.fi) and [apply for
 ### Setting up and Connecting to a Virtual Machine
 Once we have been granted access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the intructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
 
-- Set up SSH keys
-- Set up firewalls and security groups
-- Launch virtual machine with Ubuntu 20.04 image
-- Add public IP
-- Add [persistent storage](https://docs.csc.fi/cloud/pouta/persistent-volumes/)
-
-We can connect to our virtual machine by following the intructions on [connecting to your virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/).
+#### Setting up SSH Keys
+We can create SSH keys in the web interface by navigating to *Compute*, then *Key Pairs* and selecting *Create Key Pair*. Give the key pair name `<keyname>` and save the downloaded `<keyname>.pem` file to your home directory. Then, on the command line, move to home directory, create `.ssh` directory with write privileges if it doesn't exist, and move your key file into it.
 
 ```bash
-ssh ubuntu@<public-ip> -i ~/.ssh/<keyfile>.pem
+cd ~
+mkdir -p .ssh
+chmod 700 .ssh
+mv <keyname>.pem .ssh
 ```
 
-Substitute `<public-ip>` and `<keyfile>`.
+Next, protect the key with a password and make it read-only.
+
+```bash
+ssh-keygen -p -f .ssh/<keyname>.pem
+chmod 400 .ssh/<keyname>.pem
+```
+
+#### Security Groups
+We can set up firewalls and security groups by navigating to *Network*, then *Security Groups*. Let's create a new security group by selecting *Create Security Group* and naming it `SSH`. Then, select *Manage Rules* for the `SSH` group and then *Add Rule* with the following parameters:
+
+- Rule: `Custom TCP Rule`
+- Direction: `Ingress`
+- Open Port: `Port Range`
+- From Port: `22`
+- To Port: `22`
+- Remote: `CIDR`
+- CIDR: `<ip-address>/24`. Substitute `<ip-address>` with your IP address which you can find out from [myipaddress.com](http://www.myipaddress.com/).
+
+Next, we need to create a security group named `Internet` to allow traffic from the internet to our web application. Let's add a rule with the following parameters to the group.
+
+- Rule: `Custom TCP Rule`
+- Direction: `Ingress`
+- Open Port: `Port Range`
+- From Port: `8000`
+- To Port: `8000`
+- Remote: `CIDR`
+- CIDR: `0.0.0.0/0`
+
+#### Launching a Virtual Machine
+To launch a virtual machine with *Ubuntu 20.04* operating system, let's navigate to *Compute*, then *Instances*, and select *Launch Instance*.
+
+In *Details* tab
+
+- Availability Zone: `nova`
+- Instance Name: `genie`
+- Flavor: `standard.tiny`
+- Number of Instances: `1`
+- Instance Boot Source: `Boot from image`
+- Image Name: `Ubuntu-20.04`
+
+In *Access & Security* tab
+
+- Key Pair: `<keyname>`
+- Security Groups: `SSH`, `Internet`
+
+#### Adding a Public IP
+Associating the virtual machine with a public IP allows users to connect to it with the methods we have set on the security groups. To create and associate a public IP, navigate to the menu next to *Create Snapshot* and select *Associate Floating IP*. On the *IP Address* field, click the *plus* sign to allocate a new floating IP. Once allocated, select the created floating IP and press *Associate*. We denote the value of the floating IP as `<public-ip>`.
+
+#### Adding Persistent Storage
+We can also [persistent storage](https://docs.csc.fi/cloud/pouta/persistent-volumes/) to the virtual machine by navigating to *Volumes*, then *Volumes*, and selecting *Create Volume* with the following parameters:
+
+- Volume Name: `genie`
+- Volume Source: `No source, Empty volume`
+- Type: `Standard`
+- Size: `1 GiB`
+- Availability Zone: `nova`
+
+From menu next to *Edit Volume*, select *Manage Attachements* and then attach volume to the `genie` virtual machine.
+
+#### Connecting to the Virtual Machine
+Now, we can [connect to our virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/) using SSH.
+
+```bash
+ssh ubuntu@<public-ip> -i ~/.ssh/<keyname>.pem
+```
 
 ### Installing the Genie Web Application
 Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line. Let's begin by installing Julia language.
