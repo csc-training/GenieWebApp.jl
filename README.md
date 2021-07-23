@@ -1,29 +1,4 @@
 # Genie Web Application with SQL Database
-<!-- TOC depthFrom:2 depthTo:3 withLinks:1 updateOnSave:1 orderedList:0 -->
-
-- [Introduction](#introduction)
-- [Developing a Genie Web Application](#developing-a-genie-web-application)
-	- [Installing Julia Language](#installing-julia-language)
-	- [Creating MCV Application](#creating-mcv-application)
-	- [Running the Application Locally](#running-the-application-locally)
-	- [Adding Resources and Routing](#adding-resources-and-routing)
-	- [Configuring a Database](#configuring-a-database)
-	- [Testing Requests with HTTP.jl](#testing-requests-with-httpjl)
-- [Creating a Docker Container](#creating-a-docker-container)
-	- [Creating a Dockerfile](#creating-a-dockerfile)
-	- [Building a Docker Image Locally](#building-a-docker-image-locally)
-- [Deploying to Container Cloud using OpenShift](#deploying-to-container-cloud-using-openshift)
-	- [Creating a CSC Project](#creating-a-csc-project)
-	- [Pushing the Docker Image to Rahti Container Registry](#pushing-the-docker-image-to-rahti-container-registry)
-	- [Deploying the Container Image from Rahti Console](#deploying-the-container-image-from-rahti-console)
-	- [Setting Up Persistent Storage from Rahti Console](#setting-up-persistent-storage-from-rahti-console)
-- [Deploying to Virtual Machine using OpenStack](#deploying-to-virtual-machine-using-openstack)
-	- [Creating a CSC Project](#creating-a-csc-project)
-	- [Setting up and Connecting to a Virtual Machine](#setting-up-and-connecting-to-a-virtual-machine)
-	- [Installing the Genie Web Application](#installing-the-genie-web-application)
-
-<!-- /TOC -->
-
 ## Introduction
 [**Julia language**](https://julialang.org/) is a relatively new, general-purpose programming language designed to address challenges in technical computing such as the *expression problem* and the *two-language problem*. It addresses the expression problem using multiple-dispatch as a paradigm that enables highly expressive syntax and composable code and the two-language problem using just-in-time compilation to create high-performance code. For these reasons, the Julia language is gaining popularity in scientific computing and data analysis because it offers significant improvements in performance and composability. That is, how existing code and libraries work with one another.
 
@@ -41,7 +16,7 @@ These intructions assume basic knowledge of Linux, Git, Julia language, and SQL 
 
 4. **Deploying to Virtual Machine using OpenStack**: In this section, we explain how to deploy the application from source to a virtual machine on the [**Pouta**](https://pouta.csc.fi/) cloud service using OpenStack. We also show how to set persistent storage for the application.
 
-We recommend that you try to run and deploy the web application using the instructions below.
+If you are a part of Finnish research or higher education institutions, you can access many CSC services free of charge. If you plan to use CSC services, you can create a new project on [**My CSC**](https://my.csc.fi) and then apply for access to [Pouta](https://docs.csc.fi/accounts/how-to-add-service-access-for-project/) and [Rahti](https://docs.csc.fi/cloud/rahti/access/).
 
 
 ## Developing a Genie Web Application
@@ -325,11 +300,8 @@ The local webserver should be running on [http://localhost:8000/](http://localho
 ## Deploying to Container Cloud using OpenShift
 > These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
 
-### Creating a CSC Project
-We should create a new project on [**My CSC**](https://my.csc.fi) and [apply for access to Rahti](https://docs.csc.fi/cloud/rahti/access/).
-
-### Pushing the Docker Image to Rahti Container Registry
-To push the Docker image to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/), we should log in and create a new project. Then, you can log in on the command line using the token provided by the web client.
+### Pushing the Docker Image to Container Registry
+We should log in to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/), create a new project, and push the Docker image. Then, we can log in on the command line using the token provided by the web client.
 
 ```bash
 sudo docker login -p <token> -u unused docker-registry.rahti.csc.fi
@@ -349,10 +321,10 @@ sudo docker push docker-registry.rahti.csc.fi/<project>/<name>:<tag>
 
 After we have uploaded the image, we are ready to deploy it.
 
-### Deploying the Container Image from Rahti Console
+### Deploying the Container Image
 After uploading a container image, we can log in to [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) and deploy the image from the Rahti Container Registry by selecting `Deploy Image`. Then, we should create a new route by selecting `Create Route`, giving the route name, and selecting `Secure Route` to enforce a secure connection via HTTPS. Our application should now be available under the address `https://route-project.rahtiapp.fi`.
 
-### Setting Up Persistent Storage from Rahti Console
+### Setting Up Persistent Storage
 We can set up [persistent storage](https://docs.csc.fi/cloud/rahti/storage/persistent/) to `data` directory inside the application from [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) as follows:
 
 1. Select a project from *My Projects* or create a new project.
@@ -368,9 +340,6 @@ Application on Docker container is mounted to `/home/genie/app/`.
 
 
 ## Deploying to Virtual Machine using OpenStack
-### Creating a CSC Project
-We should create a new project on [**My CSC**](https://my.csc.fi) and [apply for access to Pouta](https://docs.csc.fi/accounts/how-to-add-service-access-for-project/).
-
 ### Setting up and Connecting to a Virtual Machine
 Once we have access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the instructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
 
@@ -514,3 +483,5 @@ bin/server
 ```
 
 We can exit the screen by holding `Ctrl` and pressing `a` and then `d` key. We can retach the screen again by using the `screen -r genie` command if we need to.
+
+The web application should now be available at `http://<public-ip>:8000`.
