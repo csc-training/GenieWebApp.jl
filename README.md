@@ -27,7 +27,7 @@ We should begin by installing [Julia language](https://julialang.org/) from thei
 We can create a new Genie Model-View-Controller (MCV) application using Genie's generator. The structure for this application is generated as follows:
 
 ```julia
-using Genie; Genie.newapp_mvc("WebAppDB")
+using Genie; Genie.newapp_mvc("GenieWebApp")
 ```
 
 The generator creates file structure, configurations and adds database support. We use the [SQLite](https://www.sqlite.org/index.html) database for development, testing, and production.

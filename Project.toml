@@ -1,4 +1,4 @@
-name = "WebAppDB"
+name = "GenieWebApp"
 uuid = "39c23705-354f-49ea-a3dc-6a54c3509215"
 authors = ["Jaan Tollander de Balsch <jaan@hey.com>"]
 version = "0.1.0"
