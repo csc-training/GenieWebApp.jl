@@ -6,6 +6,7 @@ data
 Manifest.toml
 config/secrets.jl
 test
+docs
 
 ## Git
 .git
