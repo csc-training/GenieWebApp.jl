@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+GenieWebApp = "39c23705-354f-49ea-a3dc-6a54c3509215"
