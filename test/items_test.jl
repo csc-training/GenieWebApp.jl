@@ -1,8 +1,7 @@
-using Test, SearchLight, Item
+using Test
+using SearchLight
+using Item
 
 @testset "Item unit tests" begin
-
-  ### Your tests here
-  @test 1 == 1
-
-end;
+    @test 1 == 1
+end
