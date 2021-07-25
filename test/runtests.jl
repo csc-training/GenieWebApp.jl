@@ -4,6 +4,8 @@ using SearchLight
 using HTTP
 
 const app_dir = dirname(@__DIR__)
+mkpath(joinpath(app_dir, "data"))
+
 const tmp = mktempdir()
 const tmp_database = joinpath(tmp, "test.sqlite")
 const link_database = joinpath(app_dir, "data", "test.sqlite")
