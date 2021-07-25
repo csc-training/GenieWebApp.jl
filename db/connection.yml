@@ -19,8 +19,8 @@ prod:
   config:
 
 test:
-  adapter:
-  database:
+  adapter: SQLite
+  database: data/database.sqlite
   host:
   username:
   password:
