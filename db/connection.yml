@@ -2,7 +2,7 @@ env: ENV["GENIE_ENV"]
 
 dev:
   adapter: SQLite
-  database: data/database.sqlite
+  database: data/dev.sqlite
   host:
   username:
   password:
@@ -11,7 +11,7 @@ dev:
 
 prod:
   adapter: SQLite
-  database: data/database.sqlite
+  database: data/prod.sqlite
   host:
   username:
   password:
@@ -20,7 +20,7 @@ prod:
 
 test:
   adapter: SQLite
-  database: data/database.sqlite
+  database: data/test.sqlite
   host:
   username:
   password:

@@ -1,13 +1,20 @@
 using Test
 using Genie
+using SearchLight
 using HTTP
+
+const app_dir = dirname(@__DIR__)
+const tmp = mktempdir()
+const tmp_database = joinpath(tmp, "test.sqlite")
+const link_database = joinpath(app_dir, "data", "test.sqlite")
 
 ENV["GENIE_ENV"] = "test"
 
-const app_dir = dirname(@__DIR__)
-
 @testset "Testing GenieWebApp.jl" begin
-    # TODO: set up temporary folder for database `mktempdir()`
+    rm(link_database)
+    touch(tmp_database)
+    symlink(tmp_database, link_database)
+
     cd(app_dir)
     loadapp(app_dir; autostart=false)
     host = "127.0.0.1"
@@ -16,4 +23,6 @@ const app_dir = dirname(@__DIR__)
     response = HTTP.request("GET", "http://$(host):$(port)/")
     @test response.status == 200
     down()
+
+    rm(link_database)
 end
