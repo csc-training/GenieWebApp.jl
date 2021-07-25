@@ -17,6 +17,7 @@ makedocs(;
     pages=[
         "Introduction" => "index.md",
         "developing-genie-web-application.md",
+        "testing-requests-with-http-jl.md",
         "creating-docker-container.md",
         "deploying-to-container-cloud-using-openshift.md",
         "deploying-to-virtual-machine-using-openstack.md",
