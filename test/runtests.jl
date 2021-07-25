@@ -2,12 +2,12 @@ using Test
 using Genie
 using HTTP
 
+ENV["GENIE_ENV"] = "test"
+
 const app_dir = dirname(@__DIR__)
 
-# TODO: run app in "test" environment
-# TODO: set up temporary folder for database
-
 @testset "Testing GenieWebApp.jl" begin
+    # TODO: set up temporary folder for database `mktempdir()`
     cd(app_dir)
     loadapp(app_dir; autostart=false)
     host = "127.0.0.1"

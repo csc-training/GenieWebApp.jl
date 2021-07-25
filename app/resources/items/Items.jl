@@ -15,8 +15,6 @@ StructTypes.StructType(::Type{DbId}) = StructTypes.Struct()
   b::Int = 0
 end
 
-Base.convert(::Type{Int}, s::String) = parse(Int, s)
-
-StructTypes.StructType(::Type{Item}) = StructTypes.Struct()
+StructTypes.StructType(::Type{Item}) = StructTypes.Mutable()
 
 end
