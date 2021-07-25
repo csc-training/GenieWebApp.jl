@@ -11,7 +11,7 @@ const link_database = joinpath(app_dir, "data", "test.sqlite")
 ENV["GENIE_ENV"] = "test"
 
 @testset "Testing GenieWebApp.jl" begin
-    rm(link_database)
+    rm(link_database; force=true)
     touch(tmp_database)
     symlink(tmp_database, link_database)
 
