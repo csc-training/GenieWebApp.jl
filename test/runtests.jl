@@ -23,6 +23,4 @@ ENV["GENIE_ENV"] = "test"
     response = HTTP.request("GET", "http://$(host):$(port)/")
     @test response.status == 200
     down()
-
-    rm(link_database)
 end
