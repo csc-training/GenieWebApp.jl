@@ -8,7 +8,7 @@ domain = "http://localhost:8000"
 
 The `domain` variable should point to the domain where we host our application, such as localhost or server, once we deploy the application.
 
-#### Views
+## Views
 By sending a GET request to the `/items` the server returns the HTML that shows the Items page.
 
 ```julia
@@ -41,7 +41,7 @@ Transfer-Encoding: chunked
 ...
 ```
 
-#### API
+## API
 We have also implemented a JSON-based REST API on the application on the path `/api/items`. REST APIs are intended purely for programmatic use and access to the application.
 
 If we send a GET request to the `/api/items` path, we receive a JSON object as a response.

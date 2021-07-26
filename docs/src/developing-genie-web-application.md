@@ -1,8 +1,8 @@
 # Developing a Genie Web Application
-### Installing Julia Language
+## Installing Julia Language
 We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
 
-### Creating MCV Application
+## Creating MCV Application
 We can create a new Genie Model-View-Controller (MCV) application using Genie's generator. The structure for this application is generated as follows:
 
 ```julia
@@ -11,7 +11,7 @@ using Genie; Genie.newapp_mvc("GenieWebApp")
 
 The generator creates file structure, configurations and adds database support. We use the [SQLite](https://www.sqlite.org/index.html) database for development, testing, and production.
 
-### Running the Application Locally
+## Running the Application Locally
 We should `instantiate` the web application to install it locally with Julia's built-in package manager when running it for the first time.
 
 ```julia
@@ -38,7 +38,7 @@ up()
 
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
 
-### Adding Resources and Routing
+## Adding Resources and Routing
 We can create new resources using the `new_resource` function. We will create a resource named `Items`.
 
 ```julia
@@ -66,7 +66,7 @@ end
 
 We define routes in the `routes.jl` file, which are mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, making a request on a route invokes the corresponding handler function in the resources and returns a response based on its output.
 
-### Configuring a Database
+## Configuring a Database
 Genie stores database configurations to `db/` directory. For example, we can add configuration for SQLite on `dev` environment to `db/connection.yml` file as follows:
 
 ```yaml

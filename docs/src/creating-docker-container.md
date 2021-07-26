@@ -1,5 +1,5 @@
 # Creating a Docker Container
-### Creating a Dockerfile
+## Creating a Dockerfile
 `Dockerfile` defines how Docker builds a container image. We should also create a `.dockerignore` file which instructs Docker to ignore certain files such as automatically-generated files or version control (Git) files from the Docker image.
 
 We use `julia:1.6-buster` as the base image.
@@ -82,7 +82,7 @@ Finally, we set the container to execute the `bin/server` script to start the we
 CMD ["bin/server"]
 ```
 
-### Building a Docker Image Locally
+## Building a Docker Image Locally
 We should begin by [installing Docker](https://docs.docker.com/get-docker/). Then, we can build a Docker image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with a name such as `genie` and `<tag>` with `dev`.
 
 ```bash
