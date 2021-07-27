@@ -119,12 +119,6 @@ rm ${JULIA_ARCHIVE}
 
 # Add symbolic link of Julia executable to /usr/bin so its found on the PATH
 sudo ln -s "${HOME}/julia-1.6.2/bin/julia" "/usr/bin/julia"
-
-# Add Julia executable to the PATH in `.bashrc`
-# echo 'export PATH="${PATH}:${HOME}/julia-1.6.2/bin"' >> .bashrc
-
-# Add Julia executable to the PATH
-# export PATH="${PATH}:${HOME}/julia-1.6.2/bin"
 ```
 
 
@@ -202,6 +196,9 @@ server {
   index        welcome.html;
   # Serve static content via Nginx
   location ~ ^/(css|img|js)/genie {
+    root /home/ubuntu/GenieWebApp.jl/public;
+  }
+  location ~ ^(error-*.html|favicon.ico|robots.txt) {
     root /home/ubuntu/GenieWebApp.jl/public;
   }
   # Serve dynamic content via Genie
