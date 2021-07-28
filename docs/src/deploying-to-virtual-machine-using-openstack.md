@@ -61,7 +61,7 @@ We will use a virtual machine with the *Ubuntu 20.04* operating system. We can l
   - *Key Pair*: `<keyname>`
   - *Security Groups*: `SSH`, `HTTP`, `HTTPS`
 
-By including the `SSH` security group we can connect to our virtual machine via SSH. Furthermore, by including `HTTP` and `HTTPS` security groups we allow traffic from the internet to the web server and application deployed on the virtual machine.
+By including the `SSH` security group, we can connect to our virtual machine via SSH. Furthermore, by including `HTTP` and `HTTPS` security groups, we allow traffic from the internet to the web server and application deployed on the virtual machine.
 
 ### Adding a Public IP
 Associating the virtual machine with a public IP allows users to connect to it with the methods we have set on the security groups. To create and associate a public IP, navigate to the menu next to *Create Snapshot* and select *Associate Floating IP*. Then, on the *IP Address* field, click the *plus* sign to allocate a new floating IP. Once allocated, select the created floating IP and press *Associate*. We denote the value of the floating IP as `<public-ip>`.
@@ -183,7 +183,7 @@ Next, we need to configure Nginx for our Genie application by creating a configu
 sudo nano /etc/nginx/sites-available/genie
 ```
 
-On the nano editor, add the following Nginx configurations:
+On the Nano editor, add the following Nginx configurations:
 
 ```bash
 server {
@@ -208,7 +208,7 @@ server {
 }
 ```
 
-Next, we enable the configuration by creating a symbolic link for the configuration file to enable sites directory.
+Next, we enable the configuration by creating a symbolic link for the configuration file to enable the sites directory.
 
 ```bash
 sudo ln -s /etc/nginx/sites-available/genie /etc/nginx/sites-enabled/genie
@@ -226,24 +226,32 @@ Now, we can restart Nginx to make the configuration effective.
 sudo systemctl restart nginx
 ```
 
-The web application should be available at `http://<public-ip>`.
+The web application should be available via HTTP.
 
 
 ## Enable HTTPS with Certbot
-We can set up HTTPS using [Certbot](https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx) for Nginx on Ubuntu 20.04.
+We can set up HTTPS for Nginx on Ubuntu 20.04 using [Certbot](https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx). Before installing Certbot, we need to ensure that we have the latest version of the Snap package manager which comes preinstalled on Ubuntu 20.04.
 
 ```bash
 sudo snap install core; sudo snap refresh core
 ```
 
+We can install Certbot via Snap in classic mode.
+
 ```bash
 sudo snap install --classic certbot
 ```
+
+Next, we make `certbot` command available in the command line by creating a symbolic link of the `certbot` executable to `/usr/bin`.
 
 ```bash
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 ```
 
+Now, we can use Certbot to retrieve a certificate and edit our Nginx configuration, turning on HTTPS access in a single step.
+
 ```bash
 sudo certbot --nginx
 ```
+
+The web application should now be available via HTTPS.
