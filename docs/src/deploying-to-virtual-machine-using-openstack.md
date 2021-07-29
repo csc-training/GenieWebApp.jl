@@ -1,5 +1,5 @@
 # Deploying to Virtual Machine using OpenStack
-## Setting up and Connecting to a Virtual Machine
+## Setting up a Virtual Machine
 Once we have access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the instructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
 
 ### Setting up SSH Keys
@@ -90,7 +90,8 @@ host <public-ip>
 
 We can also configure our own domain name by pointing DNS records to the virtual machine IP address. You read more about [DNS services in cPouta](https://docs.csc.fi/cloud/pouta/additional-services/#dns-services-in-cpouta) in the docs.
 
-### Connecting to the Virtual Machine
+
+## Connecting to the Virtual Machine
 Now, we can [connect to our virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/) using SSH with our SSH key.
 
 ```bash
@@ -98,7 +99,7 @@ ssh ubuntu@<public-ip> -i ~/.ssh/<keyname>.pem
 ```
 
 
-## Attaching a Persistent Volume
+## Attaching the Persistent Volume
 Let's begin by creating a file system on the persistent volume.
 
 ```bash
@@ -265,7 +266,7 @@ sudo systemctl restart nginx
 The web application should be available via HTTP.
 
 
-## Enable HTTPS with Certbot
+## Enabling HTTPS with Certbot
 We can set up HTTPS for Nginx on Ubuntu 20.04 using [Certbot](https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx). Before installing Certbot, we need to ensure that we have the latest version of the Snap package manager which comes preinstalled on Ubuntu 20.04.
 
 ```bash
