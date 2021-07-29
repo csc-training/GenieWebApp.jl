@@ -98,7 +98,29 @@ ssh ubuntu@<public-ip> -i ~/.ssh/<keyname>.pem
 ```
 
 
-## Installing Julia Language
+## Attaching a Persistent Volume
+Let's begin by creating a file system on the persistent volume.
+
+```bash
+sudo mkfs.xfs /dev/vdb
+```
+
+Now can mount the persistent volume. Let's define a variable for the mount location, then create a directory to the mount location and finally mount the persistent volume to the mount location.
+
+```bash
+VOLUME=/media/volume
+sudo mkdir -p ${VOLUME}
+sudo mount /dev/vdb ${VOLUME}
+```
+
+We also need to change the ownership of the volume to the cloud user for reading and writing data.
+
+```bash
+sudo chown ${USER}:${USER} ${VOLUME}
+```
+
+
+## Installing the Julia Language
 Once we have connected to the virtual machine via SSH, we need to install Julia language and our Genie web application using the command line. So let's begin by installing the Julia language.
 
 ```bash
@@ -122,7 +144,7 @@ sudo ln -s "${HOME}/julia-1.6.2/bin/julia" "/usr/bin/julia"
 ```
 
 
-## Installing Genie Web Application
+## Installing the Genie Application
 Next, we can install our Genie web application from GitHub.
 
 ```bash
@@ -149,6 +171,20 @@ export EARLYBIND="true"
 chmod +x ./bin/server
 ```
 
+We should also link the `data` and `log` directories inside the Genie application to the persistent volume with symbolic links.
+
+```bash
+sudo mkdir -p ${VOLUME}/data
+sudo ln -s ${VOLUME}/data ${GENIE_APP}/data
+```
+
+```bash
+sudo mkdir -p ${VOLUME}/log
+sudo ln -s ${VOLUME}/log ${GENIE_APP}/log
+```
+
+
+## Running the Genie Application
 Next, we need to create a new [Linux Screen](https://linuxize.com/post/how-to-use-linux-screen/) for running the web server as a background process.
 
 ```bash
