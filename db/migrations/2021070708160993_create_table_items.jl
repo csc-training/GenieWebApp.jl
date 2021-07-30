@@ -7,7 +7,7 @@ function up()
     [
       primary_key()
       column(:a, :string, limit=100)
-      column(:b, :int, limit = 10)
+      column(:b, :int)
     ]
   end
 
