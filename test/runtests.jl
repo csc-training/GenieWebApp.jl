@@ -27,7 +27,7 @@ ENV["GENIE_ENV"] = "test"
     loadapp(app_dir; autostart=false)
 
     # Set port and host.
-    port = 8000
+    port = 8999
     host = "127.0.0.1"
     base = "http://$(host):$(port)"
 
@@ -38,7 +38,11 @@ ENV["GENIE_ENV"] = "test"
     response = HTTP.request("GET", "$(base)/")
     @test response.status == 200
 
-    @test_throws StatusError HTTP.request("GET", "$(base)/non-existent")
+    try
+        HTTP.request("GET", "$(base)/non-existent")
+    catch response
+        @test response.status == 404
+    end
 
     response = HTTP.request("GET", "$(base)/items")
     @test response.status == 200
@@ -54,15 +58,59 @@ ENV["GENIE_ENV"] = "test"
 
     response = HTTP.request("POST", "$(base)/api/items",
         [("Content-Type", "application/json")],
+        """{"a":"Hello World", "b":"1"}""")
+    @test response.status == 201
+
+    try
+        HTTP.request("POST", "$(base)/api/items",
+            [("Content-Type", "application/json")],
+            """{"a":"Hello World", "b":"string"}""")
+    catch response
+        @test response.status == 400
+    end
+
+    response = HTTP.request("GET", "$(base)/api/items/1")
+    @test response.status == 200
+
+    try
+        HTTP.request("GET", "$(base)/api/items/2")
+    catch response
+        @test response.status == 404
+    end
+
+    response = HTTP.request("PUT", "$(base)/api/items/1",
+        [("Content-Type", "application/json")],
         """{"a":"Hello World", "b":"2"}""")
     @test response.status == 200
 
-    @test_throws(
-        StatusError,
-        HTTP.request("POST", "$(base)/api/items",
+    try
+        HTTP.request("PUT", "$(base)/api/items/2",
+            [("Content-Type", "application/json")],
+            """{"a":"Hello World", "b":"2"}""")
+    catch response
+        @test response.status == 404
+    end
+
+    try
+        HTTP.request("PUT", "$(base)/api/items/1",
+            [("Content-Type", "application/json")],
+            """{"a":"Hello World", "b":"string"}""")
+    catch response
+        @test response.status == 400
+    end
+
+    response = HTTP.request("DELETE", "$(base)/api/items/1",
         [("Content-Type", "application/json")],
-        """{"a":"Hello World", "b":"Text"}""")
-    )
+        "")
+    @test response.status == 200
+
+    try
+        HTTP.request("DELETE", "$(base)/api/items/1",
+            [("Content-Type", "application/json")],
+            "")
+    catch response
+        @test response.status == 404
+    end
 
     # Close the server.
     down()

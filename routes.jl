@@ -14,3 +14,7 @@ route("/items/:id", () -> items(Val(:view), Val(:POST), payload(:id)); method = 
 
 route("/api/items", () -> items(Val(:api), Val(:GET)); method = GET, named = :get_api_items)
 route("/api/items", () -> items(Val(:api), Val(:POST)); method = POST, named = :post_api_items)
+
+route("/api/items/:id", () -> items(Val(:api), Val(:GET), payload(:id)); method = GET, named = :get_api_items_id)
+route("/api/items/:id", () -> items(Val(:api), Val(:PUT), payload(:id)); method = PUT, named = :put_api_items_id)
+route("/api/items/:id", () -> items(Val(:api), Val(:DELETE), payload(:id)); method = DELETE, named = :delete_api_items_id)
