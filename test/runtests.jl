@@ -1,6 +1,7 @@
 using Test
 using HTTP
 using HTTP.ExceptionRequest
+using JSON3
 using Genie
 using SearchLight
 
@@ -34,7 +35,7 @@ ENV["GENIE_ENV"] = "test"
     # Open server with port and host values without opening browser.
     server = up(port, host; open_browser=false)
 
-    # Views requests
+    # --- View requests ---
     response = HTTP.request("GET", "$(base)/")
     @test response.status == 200
 
@@ -52,19 +53,19 @@ ENV["GENIE_ENV"] = "test"
     #     HTTP.Form(Dict("a"=>"Hello World", "b"=>"1")))
     # @test response.status == 200
 
-    # API requests
+    # --- API requests ---
     response = HTTP.request("GET", "$(base)/api/items")
     @test response.status == 200
 
+    payload = JSON3.write(Dict(:a=>"Hello World", :b=>1))
     response = HTTP.request("POST", "$(base)/api/items",
-        [("Content-Type", "application/json")],
-        """{"a":"Hello World", "b":"1"}""")
+        [("Content-Type", "application/json")], payload)
     @test response.status == 201
 
     try
+        payload = JSON3.write(Dict(:a=>"Hello World", :b=>"not integer"))
         HTTP.request("POST", "$(base)/api/items",
-            [("Content-Type", "application/json")],
-            """{"a":"Hello World", "b":"string"}""")
+            [("Content-Type", "application/json")], payload)
     catch response
         @test response.status == 400
     end
@@ -78,36 +79,34 @@ ENV["GENIE_ENV"] = "test"
         @test response.status == 404
     end
 
+    payload = JSON3.write(Dict(:a=>"Hello World Again", :b=>2))
     response = HTTP.request("PUT", "$(base)/api/items/1",
-        [("Content-Type", "application/json")],
-        """{"a":"Hello World", "b":"2"}""")
+        [("Content-Type", "application/json")], payload)
     @test response.status == 200
 
     try
+        payload = JSON3.write(Dict(:a=>"Hello World", :b=>2))
         HTTP.request("PUT", "$(base)/api/items/2",
-            [("Content-Type", "application/json")],
-            """{"a":"Hello World", "b":"2"}""")
+            [("Content-Type", "application/json")], payload)
     catch response
         @test response.status == 404
     end
 
     try
+        payload = JSON3.write(Dict(:a=>"Hello World", :b=>"not integer"))
         HTTP.request("PUT", "$(base)/api/items/1",
-            [("Content-Type", "application/json")],
-            """{"a":"Hello World", "b":"string"}""")
+            [("Content-Type", "application/json")], payload)
     catch response
         @test response.status == 400
     end
 
     response = HTTP.request("DELETE", "$(base)/api/items/1",
-        [("Content-Type", "application/json")],
-        "")
+        [("Content-Type", "application/json")], "")
     @test response.status == 200
 
     try
         HTTP.request("DELETE", "$(base)/api/items/1",
-            [("Content-Type", "application/json")],
-            "")
+            [("Content-Type", "application/json")], "")
     catch response
         @test response.status == 404
     end
