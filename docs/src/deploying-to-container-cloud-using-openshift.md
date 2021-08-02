@@ -1,5 +1,6 @@
 # Deploying to Container Cloud using OpenShift
-> These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
+!!! info
+    These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
 
 ## Pushing the Docker Image to Container Registry
 We should log in to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/), create a new project, and push the Docker image. Then, we can log in on the command line using the token provided by the web client.
