@@ -1,4 +1,7 @@
 # Deploying to Virtual Machine using OpenStack
+!!! info
+    In this section, we manually configure a virtual machine, connect to it and set up a server. Manual performing these steps is an excellent way to learn how virtual machines work and understand how a web application operates from one. However, we should use containers and configuration management for deploying real production applications instead of manually deploying them.
+
 ## Setting up a Virtual Machine
 Once we have access to Pouta, we should log in to the [**Pouta Web User Interface**](https://pouta.csc.fi). Then, we can follow the instructions on [launching a virtual machine in the cPouta web interface](https://docs.csc.fi/cloud/pouta/launch-vm-from-web-gui/).
 
@@ -192,7 +195,17 @@ Next, we need to create a new [Linux Screen](https://linuxize.com/post/how-to-us
 screen -S genie
 ```
 
-In `config/env/prod.jl`, set `server_handle_static_files: false`.
+We will use Nginx reverse product to serve static files. For this reason, modify configuration settings in the production environment in `config/env/prod.jl` such that the Genie server does not handle static files.
+
+```julia
+const config = Settings(
+  server_port                     = 8000,
+  server_host                     = "0.0.0.0",
+  log_level                       = Logging.Error,
+  log_to_file                     = true,
+  server_handle_static_files      = false  # set to false when using Nginx
+)
+```
 
 On the new screen, let's execute the`./bin/server` script to start a server.
 
