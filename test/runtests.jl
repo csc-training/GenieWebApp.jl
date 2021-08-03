@@ -100,13 +100,11 @@ ENV["GENIE_ENV"] = "test"
         @test response.status == 400
     end
 
-    response = HTTP.request("DELETE", "$(base)/api/items/1",
-        [("Content-Type", "application/json")], "")
+    response = HTTP.request("DELETE", "$(base)/api/items/1")
     @test response.status == 200
 
     try
-        HTTP.request("DELETE", "$(base)/api/items/1",
-            [("Content-Type", "application/json")], "")
+        HTTP.request("DELETE", "$(base)/api/items/1")
     catch response
         @test response.status == 404
     end
