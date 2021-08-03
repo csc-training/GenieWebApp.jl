@@ -1,4 +1,4 @@
-# Developing a Genie Web Application
+# Developing the Application
 ## Installing Julia Language
 We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
 
@@ -30,10 +30,10 @@ Next, let's import Genie and use the `loadapp` function for developing and runni
 using Genie; Genie.loadapp(".")
 ```
 
-Now, we can use the `up` function to run a local web server.
+Now, we can use the `up` function to run a local web server on port `8000`.
 
 ```julia
-up()
+up(8000)
 ```
 
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.

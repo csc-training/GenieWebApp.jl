@@ -16,11 +16,17 @@ makedocs(;
     ),
     pages=[
         "Introduction" => "index.md",
-        "developing-genie-web-application.md",
-        "testing-requests-with-http-jl.md",
-        "creating-docker-container.md",
-        "deploying-to-container-cloud-using-openshift.md",
-        "deploying-to-virtual-machine-using-openstack.md",
+        "Developing Genie Applications" => [
+            joinpath("genie", "developing-the-application.md"),
+            joinpath("genie", "testing-requests-with-http-jl.md"),
+        ],
+        "Deploying with OpenStack" => [
+            joinpath("openstack", "deploying-manually-to-virtual-machine.md"),
+        ],
+        "Deploying with OpenShift" => [
+            joinpath("openshift", "creating-docker-container.md"),
+            joinpath("openshift", "deploying-manually-to-container-platform.md"),
+        ],
     ],
 )
 
