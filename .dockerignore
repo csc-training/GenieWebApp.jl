@@ -1,12 +1,13 @@
-## Project
+## Julia Project
 README.md
-data
-
-## Julia
 Manifest.toml
-config/secrets.jl
 test
 docs
+
+## Genie
+config/secrets.jl
+data
+log
 
 ## Git
 .git

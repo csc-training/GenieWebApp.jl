@@ -17,17 +17,17 @@ For getting started with web application development and cloud computing, we ass
 
 
 ## Developing a Genie Application
-In the *Developing Genie Applications* section, we explain how to create a web application with [**Genie framework**](https://genieframework.com/), a full-stack [Model-View-Controller (MVC)](https://www.youtube.com/watch?v=DUg2SWWK18I) web framework similar to Ruby-on-Rails and Django. Then, we explore how the MVC web application operates and create a [REST API](https://restfulapi.net/). For a general resource about web development, we recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/), and for an overview of best practices of developing web applications, we recommend [The Twelve-Factor App](https://12factor.net/) guidelines.
+In the *Developing a Genie Application* section, we explain how to create a web application with [**Genie framework**](https://genieframework.com/), a full-stack [Model-View-Controller (MVC)](https://www.youtube.com/watch?v=DUg2SWWK18I) web framework similar to Ruby-on-Rails and Django. Then, we explore how the MVC web application operates and create a [REST API](https://restfulapi.net/). For a general resource about web development, we recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/), and for an overview of best practices of developing web applications, we recommend [The Twelve-Factor App](https://12factor.net/) guidelines.
 
 As a side note, it is also possible to develop [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) in Julia using the [Julia SDK](https://www.youtube.com/watch?v=KixO3udfcKA) if you want to create a lightweight, customizable, single-purpose application without front-end.
 
 
 ## Deploying with OpenStack
-In the *Deploying with OpenStack* section, we explain how to deploy the application from source to a virtual machine on the [**Pouta**](https://pouta.csc.fi/) cloud service using OpenStack. We also show how to set persistent storage for the application.
+In the *Deploying with OpenStack* section, we explain how to deploy the application manually from source to a virtual machine on the [**Pouta**](https://pouta.csc.fi/) cloud service using [OpenStack](https://www.openstack.org/) web interface and Linux command line on the virtual machine. We also show how to set persistent storage for the application.
 
 
 ## Deploying with OpenShift
-In the *Deploying with OpenShift* section, we explain how to create a [**Docker**](https://www.docker.com/) container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux. We continue by explaining how to deploy the application from a container image to the [**Rahti**](https://rahti.csc.fi/) cloud service using OpenShift. We also show how to set persistent storage for the application.
+In the *Deploying with OpenShift* section, we explain how to create a [**Docker**](https://www.docker.com/) container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux. We continue by explaining how to deploy the application's container image to the [**Rahti**](https://rahti.csc.fi/) container platform using [OpenShift](https://www.openshift.com/) web interface. We also show how to set persistent storage for the application.
 
 
 ```@index
