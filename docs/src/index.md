@@ -17,9 +17,15 @@ For getting started with web application development and cloud computing, we ass
 
 
 ## Developing a Genie Application
-In the *Developing a Genie Application* section, we explain how to create a web application with [**Genie framework**](https://genieframework.com/), a full-stack [Model-View-Controller (MVC)](https://www.youtube.com/watch?v=DUg2SWWK18I) web framework similar to Ruby-on-Rails and Django. Then, we explore how the MVC web application operates and create a [REST API](https://restfulapi.net/). For a general resource about web development, we recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/), and for an overview of best practices of developing web applications, we recommend [The Twelve-Factor App](https://12factor.net/) guidelines.
+In the *Developing a Genie Application* section, we explain how to create a web application with [**Genie framework**](https://genieframework.com/), a full-stack Model-View-Controller (MVC) web framework similar to Ruby-on-Rails and Django. You can watch the [MVC explained in 4 minutes](https://www.youtube.com/watch?v=DUg2SWWK18I) for an overview of how they work.
 
-As a side note, it is also possible to develop [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) in Julia using the [Julia SDK](https://www.youtube.com/watch?v=KixO3udfcKA) if you want to create a lightweight, customizable, single-purpose application without front-end.
+We recommend the [MDN Web Docs](https://developer.mozilla.org/) as a general resource about web technologies, web development, and developer tools. Especially, the sections about essential web technologies such as HTTP and HTML are helpful.
+
+Another helpful resource is the [REST API Tutorial](https://restfulapi.net/) website. It covers the design principles of REST API, an extensively used architectural style for distributed hypermedia systems, for example, web applications. In practice, it defines how we can interact with the system and access resources, such as web pages or files.
+
+Furthermore, we recommend [The Twelve-Factor App](https://12factor.net/) guidelines for an overview of best practices of developing web applications. It explains best practices for configuring and deploying applications, automating these processes, and dealing with backing services such as databases.
+
+As a side note, it is also possible to develop [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) in Julia using the [Julia SDK](https://www.youtube.com/watch?v=KixO3udfcKA) if you want to create a lightweight, customizable, single-purpose application without a front-end.
 
 
 ## Deploying with OpenStack
