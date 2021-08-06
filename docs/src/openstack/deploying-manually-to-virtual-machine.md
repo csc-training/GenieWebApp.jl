@@ -194,7 +194,13 @@ Next, we need to create a new [Linux Screen](https://linuxize.com/post/how-to-us
 screen -S genie
 ```
 
-We will use Nginx reverse product to serve static files. For this reason, modify configuration settings in the production environment in `config/env/prod.jl` such that the Genie server does not handle static files.
+Then, let's change our working directory to the Genie application directory.
+
+```bash
+cd ${GENIE_APP}
+```
+
+We will use a reverse proxy (Nginx) to serve static files and route dynamic content to Genie server. For this reason, modify configuration settings in the production environment in `config/env/prod.jl` such that the Genie server does not handle static files.
 
 ```julia
 const config = Settings(
@@ -202,14 +208,14 @@ const config = Settings(
   server_host                     = "0.0.0.0",
   log_level                       = Logging.Error,
   log_to_file                     = true,
-  server_handle_static_files      = false  # set to false when using Nginx
+  # set to false when using reverse proxy
+  server_handle_static_files      = false
 )
 ```
 
 On the new screen, let's execute the`./bin/server` script to start a server.
 
 ```bash
-cd ${GENIE_APP}
 ./bin/server
 ```
 
