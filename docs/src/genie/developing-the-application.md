@@ -9,7 +9,7 @@ We can create a new Genie Model-View-Controller (MCV) application using Genie's 
 using Genie; Genie.newapp_mvc("GenieWebApp")
 ```
 
-The generator creates file structure, configurations and adds database support. We use the [SQLite](https://www.sqlite.org/index.html) database for development, testing, and production.
+The generator creates file structure, configurations and adds database support. We use the SQLite database for development, testing, and production.
 
 ## Running the Application Locally
 We should `instantiate` the web application to install it locally with Julia's built-in package manager when running it for the first time.

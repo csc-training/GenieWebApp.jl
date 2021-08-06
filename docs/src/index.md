@@ -6,6 +6,7 @@ CurrentModule = GenieWebApp
 ## Goal
 Our goal with this repository is to demonstrate a practical, step-by-step approach for getting started with developing web applications with Julia language and Genie framework, deploying them on a cloud platform, and exposing them to users over the internet. As our deployment options, we explore traditional virtual machines and modern container platforms.
 
+
 ## Why Julia Language?
 [**Julia language**](https://julialang.org/) is a relatively new, general-purpose programming language designed to address challenges in technical computing such as the *expression problem* and the *two-language problem*. It addresses the expression problem using multiple-dispatch as a paradigm that enables highly expressive syntax and composable code and the two-language problem using just-in-time compilation to create high-performance code. For these reasons, the Julia language is gaining popularity in scientific computing and data analysis because it offers significant improvements in performance and composability. That is, how existing code and libraries work with one another.
 
@@ -18,6 +19,8 @@ For getting started with web application development and cloud computing, we ass
 
 ## Developing a Genie Application
 In the *Developing a Genie Application* section, we explain how to create a web application with [**Genie framework**](https://genieframework.com/), a full-stack Model-View-Controller (MVC) web framework similar to Ruby-on-Rails and Django. You can watch the [MVC explained in 4 minutes](https://www.youtube.com/watch?v=DUg2SWWK18I) for an overview of how they work.
+
+We will use [SQLite](https://www.sqlite.org/index.html) database as a backing service in our Genie application. SQLite runs as part of the application and writes the database into a single database file to a specified location on the file system, which we should mount to persistent storage. SQLite works well for applications with small amounts of concurrent writes to the database. However, we should use a client-Server database such as PostgreSQL and MySQL if we need to perform many concurrent writes.
 
 We recommend the [MDN Web Docs](https://developer.mozilla.org/) as a general resource about web technologies, web development, and developer tools. Especially, the sections about essential web technologies such as HTTP and HTML are helpful.
 
