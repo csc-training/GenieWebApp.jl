@@ -1,4 +1,4 @@
-# Deploying Manually to Virtual Machine
+# Manually via Web Interface
 In this section, we manually configure a virtual machine, connect to it and set up a server. Manual performing these steps is an excellent way to learn how virtual machines work and understand how a web application operates from one. However, we should use containers and configuration management for deploying real production applications instead of manually deploying them.
 
 ## Setting up a Virtual Machine
