@@ -6,6 +6,8 @@ CurrentModule = GenieWebApp
 ## Goal
 Our goal with this repository is to demonstrate a practical, step-by-step approach for getting started with developing web applications with Julia language and Genie framework, deploying them on a cloud platform, and exposing them to users over the internet. As our deployment options, we explore traditional virtual machines and modern container platforms.
 
+We attempt to facilitate learning by first developing the web application locally, that is, on our personal computer, to demonstrate fundamental web technologies. From local development, it is easier to progress to deploying the application to the virtualized cloud environments, initially to a virtual machine and then to a container platform. Additionally, we begin by performing deployment steps manually using the web and command-line interfaces. Then, we progress towards automating them using a command-line interface and configuration management.
+
 
 ## Why Julia Language?
 [**Julia language**](https://julialang.org/) is a relatively new, general-purpose programming language designed to address challenges in technical computing such as the *expression problem* and the *two-language problem*. It addresses the expression problem using multiple-dispatch as a paradigm that enables highly expressive syntax and composable code and the two-language problem using just-in-time compilation to create high-performance code. For these reasons, the Julia language is gaining popularity in scientific computing and data analysis because it offers significant improvements in performance and composability. That is, how existing code and libraries work with one another.
