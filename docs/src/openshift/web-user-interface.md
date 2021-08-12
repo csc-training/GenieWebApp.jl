@@ -1,9 +1,11 @@
-# Manually via Web Interface
+# Via Web User Interface
 !!! info
     These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
 
 ## Pushing the Docker Image to Container Registry
-We should log in to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/), create a new project, and push the Docker image. Then, we can log in on the command line using the token provided by the web client.
+We should log in to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/), create a new project, and push the Docker image.
+
+Then, we can log in on the command line using the token provided by the web client.
 
 ```bash
 sudo docker login -p <token> -u unused docker-registry.rahti.csc.fi
@@ -25,7 +27,30 @@ After we have uploaded the image, we are ready to deploy it.
 
 
 ## Deploying the Container Image
-After uploading a container image, we can log in to [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) and deploy the image from the Rahti Container Registry by selecting `Deploy Image`. Then, we should create a new route by selecting `Create Route`, giving the route name, and selecting `Secure Route` to enforce a secure connection via HTTPS. Our application should now be available under the address `https://route-project.rahtiapp.fi`.
+After uploading a container image, we can log in to [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) and deploy the image from the Rahti Container Registry by selecting *Deploy Image*, then *Image Stream Tag* with following parameters:
+
+- *Namespace*: `<project>`
+- *Image Stream*: `<name>`
+- *Tag*: `<tag>`
+
+Finally, press *Deploy*.
+
+
+## Creating a Secure Route
+By creating a route, we can expose the application to the internet. We can create a new route by selecting *Create Route* with the following parameters.
+
+- *Name*: `genie` (Gives route a name)
+- *Hostname*: `genie.rahtiapp.fi`
+- *Path*: `/`
+- *Service*: `genie`
+- *Target Port*: `8000 → 8000 (TCP)`
+- *Alternate Services*:
+    - *Split traffic across multiple services*:
+- *Security*: `Secure route` (by selecting `Secure Route` we enforce a secure connection via HTTPS.)
+    - *TLS Termination*: `Edge`
+    - *Insecure Traffic*: `Redirect`
+
+Our application should now be available under the address [https://genie.rahtiapp.fi](https://genie.rahtiapp.fi).
 
 
 ## Setting Up Persistent Storage

@@ -21,13 +21,13 @@ makedocs(;
             joinpath("genie", "testing.md"),
         ],
         "Deploying to Virtual Machine using OpenStack" => [
-            joinpath("openstack", "web-interface.md"),
+            joinpath("openstack", "web-user-interface.md"),
             # joinpath("openstack", "command-line-interface.md"),
         ],
         "Deploying to OpenShift Container Platform" => [
             joinpath("openshift", "docker-container.md"),
-            joinpath("openshift", "web-interface.md"),
-            # joinpath("openshift", "command-line-interface.md"),
+            joinpath("openshift", "web-user-interface.md"),
+            joinpath("openshift", "command-line-interface.md"),
         ],
     ],
 )
