@@ -39,30 +39,28 @@ Finally, press *Deploy*.
 ## Creating a Secure Route
 By creating a route, we can expose the application to the internet. We can create a new route by selecting *Create Route* with the following parameters.
 
-- *Name*: `genie` (Gives route a name)
+- *Name*: `genie`
 - *Hostname*: `genie.rahtiapp.fi`
 - *Path*: `/`
 - *Service*: `genie`
 - *Target Port*: `8000 → 8000 (TCP)`
-- *Alternate Services*:
-    - *Split traffic across multiple services*:
-- *Security*: `Secure route` (by selecting `Secure Route` we enforce a secure connection via HTTPS.)
+- *Security*: `Secure route`
     - *TLS Termination*: `Edge`
     - *Insecure Traffic*: `Redirect`
 
-Our application should now be available under the address [https://genie.rahtiapp.fi](https://genie.rahtiapp.fi).
+By selecting `Secure Route` we enforce a secure connection via HTTPS. Our application should now be available under the address `https://genie.rahtiapp.fi`.
 
 
 ## Setting Up Persistent Storage
-We can set up [persistent storage](https://docs.csc.fi/cloud/rahti/storage/persistent/) to `data` directory inside the application from [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) as follows:
+We can set up [persistent storage](https://docs.csc.fi/cloud/rahti/storage/persistent/) to the application by selecting *Storage* and then *Create Storage* with the following parameters:
 
-1. Select a project from *My Projects* or create a new project.
-2. Select *Storage* and then *Create Storage* with the following parameters:
-    - *Storage class*: `glusterfs-storage`
-    - *Name*: `genie-volume`
-    - *Access Mode*: `Shared Access (RWX)`
-3. Then select *Applications* > *Deployments*, then your Genie application deployment. The from *Actions* menu, select *Add Storage* with the following parameters:
-    - *Storage*: `genie-volume`
-    - *Mount path*: `/home/genie/app/data`
+- *Storage class*: `glusterfs-storage`
+- *Name*: `genie-volume`
+- *Access Mode*: `Shared Access (RWX)`
 
-Application on Docker container is mounted to `/home/genie/app/`.
+Next, we select *Applications*, then *Deployments*, and finally your Genie application deployment. From the *Actions* menu, select *Add Storage* with the following parameters:
+
+- *Storage*: `genie-volume`
+- *Mount path*: `/home/genie/app/data`
+
+Now the persistent storage is mounted inside the Genie application's `data` directory.
