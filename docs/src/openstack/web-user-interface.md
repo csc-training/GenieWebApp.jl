@@ -112,14 +112,14 @@ Now can mount the persistent volume. Let's define a variable for the mount locat
 
 ```bash
 VOLUME=/media/volume
-sudo mkdir -p ${VOLUME}
-sudo mount /dev/vdb ${VOLUME}
+sudo mkdir -p $VOLUME
+sudo mount /dev/vdb $VOLUME
 ```
 
 We also need to change the ownership of the volume to the cloud user for reading and writing data.
 
 ```bash
-sudo chown ${USER}:${USER} ${VOLUME}
+sudo chown $USER:$USER $VOLUME
 ```
 
 
@@ -131,19 +131,19 @@ Once we have connected to the virtual machine via SSH, we need to install Julia 
 JULIA_URL="https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.2-linux-x86_64.tar.gz"
 
 # Set name for the downloaded archive
-JULIA_ARCHIVE="${HOME}/julia.tar.gz"
+JULIA_ARCHIVE="$HOME/julia.tar.gz"
 
 # Download the Julia language binaries
-curl -o ${JULIA_ARCHIVE} ${JULIA_URL}
+curl -o $JULIA_ARCHIVE $JULIA_URL
 
 # Uncompress (-z) and extract (-z) files (-f) from archive
-tar -x -z -f ${JULIA_ARCHIVE}
+tar -x -z -f $JULIA_ARCHIVE
 
 # Remove the archive file after extraction
-rm ${JULIA_ARCHIVE}
+rm $JULIA_ARCHIVE
 
 # Add symbolic link of Julia executable to /usr/bin so its found on the PATH
-sudo ln -s "${HOME}/julia-1.6.2/bin/julia" "/usr/bin/julia"
+sudo ln -s "$HOME/julia-1.6.2/bin/julia" "/usr/bin/julia"
 ```
 
 
@@ -155,13 +155,13 @@ GH_USER="jaantollander"
 GH_REPO="GenieWebApp.jl"
 
 # Clone the Genie application from the GitHub repository to HOME directory
-git clone "https://github.com/${GH_USER}/${GH_REPO}.git" ${HOME}/${GH_REPO}
+git clone "https://github.com/$GH_USER/$GH_REPO.git" $HOME/$GH_REPO
 
 # Define application directory
-export GENIE_APP="${HOME}/${GH_REPO}"
+export GENIE_APP="$HOME/$GH_REPO"
 
 # Change directory to GenieWebApp.jl
-cd ${GENIE_APP}
+cd $GENIE_APP
 
 # Install GenieWebApp.jl as Julia package
 julia -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate(); Pkg.precompile(); "
@@ -177,13 +177,13 @@ chmod +x ./bin/server
 We should also link the `data` and `log` directories inside the Genie application to the persistent volume with symbolic links.
 
 ```bash
-sudo mkdir -p ${VOLUME}/data
-sudo ln -s ${VOLUME}/data ${GENIE_APP}/data
+sudo mkdir -p $VOLUME/data
+sudo ln -s $VOLUME/data $GENIE_APP/data
 ```
 
 ```bash
-sudo mkdir -p ${VOLUME}/log
-sudo ln -s ${VOLUME}/log ${GENIE_APP}/log
+sudo mkdir -p $VOLUME/log
+sudo ln -s $VOLUME/log $GENIE_APP/log
 ```
 
 
@@ -197,7 +197,7 @@ screen -S genie
 Then, let's change our working directory to the Genie application directory.
 
 ```bash
-cd ${GENIE_APP}
+cd $GENIE_APP
 ```
 
 We will use a reverse proxy (Nginx) to serve static files and route dynamic content to Genie server. For this reason, modify configuration settings in the production environment in `config/env/prod.jl` such that the Genie server does not handle static files.
