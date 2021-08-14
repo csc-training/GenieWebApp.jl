@@ -6,12 +6,12 @@ DocMeta.setdocmeta!(GenieWebApp, :DocTestSetup, :(using GenieWebApp); recursive=
 makedocs(;
     modules=[GenieWebApp],
     authors="Jaan Tollander de Balsch",
-    repo="https://github.com/jaantollander/GenieWebApp.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/csc-training/GenieWebApp.jl/blob/{commit}{path}#{line}",
     sitename="GenieWebApp.jl",
     format=Documenter.HTML(;
         # prettyurls=get(ENV, "CI", "false") == "true",
         prettyurls = true,
-        canonical="https://jaantollander.github.io/GenieWebApp.jl",
+        canonical="https://csc-training.github.io/GenieWebApp.jl",
         assets=String[],
     ),
     pages=[
@@ -33,5 +33,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/jaantollander/GenieWebApp.jl",
+    repo="github.com/csc-training/GenieWebApp.jl",
 )

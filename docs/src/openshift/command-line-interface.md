@@ -36,7 +36,7 @@ We denote the user defined parameters using variables.
 ```bash
 PROJECT="app"
 APP="genie"
-REPO="https://github.com/jaantollander/GenieWebApp.jl"
+REPO="https://github.com/csc-training/GenieWebApp.jl"
 ```
 
 We can create a new project.

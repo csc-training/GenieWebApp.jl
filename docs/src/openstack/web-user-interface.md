@@ -151,7 +151,7 @@ sudo ln -s "$HOME/julia-1.6.2/bin/julia" "/usr/bin/julia"
 Next, we can install our Genie web application from GitHub.
 
 ```bash
-GH_USER="jaantollander"
+GH_USER="csc-training"
 GH_REPO="GenieWebApp.jl"
 
 # Clone the Genie application from the GitHub repository to HOME directory
