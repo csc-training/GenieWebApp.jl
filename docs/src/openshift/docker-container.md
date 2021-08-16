@@ -83,7 +83,7 @@ CMD ["bin/server"]
 ```
 
 ## Building a Docker Image Locally
-We should begin by [installing Docker](https://docs.docker.com/get-docker/). Then, we can build a Docker image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with a name such as `genie` and `<tag>` with `dev`.
+We should begin by [installing Docker](https://docs.docker.com/get-docker/). Then, we can build a Docker image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with a name such as `genie` and `<tag>` with `latest`.
 
 ```bash
 sudo docker build -t <name>:<tag> .

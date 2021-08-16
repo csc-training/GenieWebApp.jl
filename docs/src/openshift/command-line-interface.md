@@ -18,7 +18,7 @@ The [OpenShift 3.11 documentation](https://docs.openshift.com/container-platform
 
 
 ## Login
-Let's login to OpenShift using the token obtained from the web interface. We recommend to keep the web user interface open if you want to see visually how your deployment is progressing.
+Let's login to OpenShift using the token obtained from the web user interface. We recommend to keep the web user interface open if you want to see visually how your deployment is progressing.
 
 ```bash
 oc login "https://rahti.csc.fi:8443" --token=<hidden>
@@ -100,7 +100,10 @@ oc new-app $REPO --name=$APP
 We can expose the application to the internet by creating a *Route*.
 
 ```bash
-oc create route edge --service=$APP --hostname="$APP.rahtiapp.fi"
+oc create route edge \
+    --insecure-policy="Redirect" \
+    --service=$APP \
+    --hostname="$APP.rahtiapp.fi"
 ```
 
 Application should now be available in `https://$APP.rahtiapp.fi`.
@@ -112,12 +115,12 @@ We can create a persistent storage and mount it to the application with a *Persi
 ```bash
 oc set volume dc/$APP \
     --add \
-    --name=volume-1 \
-    --type=PersistentVolumeClaim \
-    --claim-name=genie-volume \
-    --claim-mode=ReadWriteMany \
-    --claim-size=1G \
-    --mount-path=/home/genie/app/data
+    --name="volume-1" \
+    --type="PersistentVolumeClaim" \
+    --claim-name="genie-volume" \
+    --claim-mode="ReadWriteMany" \
+    --claim-size="1G" \
+    --mount-path="/home/genie/app/data"
 ```
 
 
