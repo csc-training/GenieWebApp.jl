@@ -154,11 +154,11 @@ Next, we can install our Genie web application from GitHub.
 GH_USER="csc-training"
 GH_REPO="GenieWebApp.jl"
 
-# Clone the Genie application from the GitHub repository to HOME directory
-git clone "https://github.com/$GH_USER/$GH_REPO.git" $HOME/$GH_REPO
-
 # Define application directory
 export GENIE_APP="$HOME/$GH_REPO"
+
+# Clone the Genie application from the GitHub repository to HOME directory
+git clone "https://github.com/$GH_USER/$GH_REPO.git" $GENIE_APP
 
 # Change directory to GenieWebApp.jl
 cd $GENIE_APP
