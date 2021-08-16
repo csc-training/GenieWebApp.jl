@@ -97,13 +97,28 @@ oc new-app $REPO --name=$APP
 
 
 ## Creating a Secure Route
-We can expose the application to the internet by creating a route.
+We can expose the application to the internet by creating a *Route*.
 
 ```bash
 oc create route edge --service=$APP --hostname="$APP.rahtiapp.fi"
 ```
 
 Application should now be available in `https://$APP.rahtiapp.fi`.
+
+
+## Adding Persistent Storage
+We can create a persistent storage and mount it to the application with a *Persistent Volume Claim (PVC)*.
+
+```bash
+oc set volume dc/$APP \
+    --add \
+    --name=volume-1 \
+    --type=PersistentVolumeClaim \
+    --claim-name=genie-volume \
+    --claim-mode=ReadWriteMany \
+    --claim-size=1G \
+    --mount-path=/home/genie/app/data
+```
 
 
 ## Rebuilding Application
