@@ -1,5 +1,23 @@
 # Via Command Line Interface
-## Installing
+## Installing the Client
+We can install the OpenStack client using Python. Let's install the [Miniconda](https://docs.conda.io/en/latest/miniconda.html) package manager which includes Python.
+
+```bash
+python --version
+```
+
+```
+Python 3.9.1
+```
+
+Now, we can install the client using `pip`.
+
+```bash
+pip install python-openstackclient
+```
+
+Check your installation by calling OpenStack with version flag.
+
 ```bash
 openstack --version
 ```
@@ -8,15 +26,12 @@ openstack --version
 openstack 5.5.0
 ```
 
-```bash
-openstack --help
-```
 
-```
-usage: openstack [--version] [-v | -q] [--log-file LOG_FILE] [-h] [--debug]
-                 [--os-cloud <cloud-config-name>]
-                 [--os-region-name <auth-region-name>]
-...
+## Configuring API Access
+Download [RC file](https://pouta.csc.fi/dashboard/project/api_access/openrc/) using the Web User Interface. Then, activate the script.
+
+```bash
+source <project-name>-openrc.sh
 ```
 
 
@@ -26,11 +41,11 @@ KEY_NAME="openstack-key"
 ```
 
 ```bash
-openstack keypair create $KEY_NAME > "$KEY_NAME.pem"
+openstack keypair create $KEY_NAME > "~/.ssh/$KEY_NAME.pem"
 ```
 
 
-## Creating a Server
+## Creating a Virtual Machine
 ```bash
 openstack image list -f yaml
 ```
@@ -134,6 +149,23 @@ openstack security group rule create $HTTPS_GROUP \
 openstack server add security group $SERVER_NAME $SSH_GROUP
 openstack server add security group $SERVER_NAME $HTTP_GROUP
 openstack server add security group $SERVER_NAME $HTTPS_GROUP
+openstack server remove security group $SERVER_NAME default
+```
+
+
+## Adding Persistent Storage
+```bash
+VOLUME_NAME="genie-volume"
+```
+
+```bash
+openstack volume create $VOLUME_NAME \
+    --description="genie volume" \
+    --size=1
+```
+
+```bash
+openstack server add volume $SERVER_NAME $VOLUME_NAME
 ```
 
 
@@ -146,4 +178,10 @@ openstack server delete $SERVER_NAME
 ## Deleting a Floating IP
 ```bash
 openstack floating ip delete $FLOATING_IP
+```
+
+
+## Deleting Persistent Storage
+```bash
+openstack server remove volume $SERVER_NAME $VOLUME_NAME
 ```

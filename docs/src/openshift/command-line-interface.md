@@ -1,7 +1,7 @@
 # Via Command Line Interface
 We can deploy our application via the OpenShift Command Line Interface (CLI).
 
-## Installing
+## Installing the Client
 We should begin by downloading the [OpenShift 3.11 origin](https://github.com/openshift/origin/releases/tag/v3.11.0) and extract the archived file to `$HOME/bin` directory. Then, we should add the directory to the `$PATH` variable. In Linux, we can append the following line to our `.bashrc` file.
 
 ```bash
