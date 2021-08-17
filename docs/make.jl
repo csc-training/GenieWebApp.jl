@@ -22,7 +22,7 @@ makedocs(;
         ],
         "Deploying to Virtual Machine using OpenStack (v5.5.0)" => [
             joinpath("openstack", "web-user-interface.md"),
-            # joinpath("openstack", "command-line-interface.md"),
+            joinpath("openstack", "command-line-interface.md"),
         ],
         "Deploying to OpenShift Container Platform (v3.11.0)" => [
             joinpath("openshift", "docker-container.md"),
