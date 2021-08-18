@@ -88,10 +88,27 @@ openstack server list -f yaml
 openstack floating ip create public -f yaml
 ```
 
+```yaml
+created_at: '2021-08-18T08:22:13Z'
+# ...
+floating_ip_address: 128.214.252.233
+floating_network_id: 26f9344a-2e81-4ef5-a018-7d20cff891ee
+id: 826e990f-220f-4c2c-b41a-c5205b314267
+name: 128.214.252.233
+# ...
 ```
 
 ```bash
 openstack floating ip list -f yaml
+```
+
+```yaml
+- Fixed IP Address: null
+  Floating IP Address: 128.214.252.233
+  Floating Network: 26f9344a-2e81-4ef5-a018-7d20cff891ee
+  ID: 826e990f-220f-4c2c-b41a-c5205b314267
+  Port: null
+  Project: 418d555e93d04a1688f305ee19d41e56
 ```
 
 ```bash
