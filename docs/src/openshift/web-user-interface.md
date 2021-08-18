@@ -1,4 +1,4 @@
-# Via Web User Interface
+# Deploying the Container via Web User Interface
 !!! info
     These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
 

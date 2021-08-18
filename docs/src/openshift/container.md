@@ -1,4 +1,4 @@
-# Creating a Docker Container
+# Creating Docker Container for the Application
 ## Creating a Dockerfile
 `Dockerfile` defines how Docker builds a container image. We should also create a `.dockerignore` file which instructs Docker to ignore certain files such as automatically-generated files or version control (Git) files from the Docker image.
 

@@ -1,4 +1,4 @@
-# Via Command Line Interface
+# Setting up a Virtual Machine via Command Line Interface
 ## Installing the Client
 We can install the OpenStack client using Python. Let's install the [Miniconda](https://docs.conda.io/en/latest/miniconda.html) package manager which includes Python.
 
@@ -35,13 +35,17 @@ source <project-name>-openrc.sh
 ```
 
 
-## Creating a Key Pair
+## Creating SSH Keys
 ```bash
 KEY_NAME="openstack-key"
 ```
 
 ```bash
-openstack keypair create $KEY_NAME > "~/.ssh/$KEY_NAME.pem"
+openstack keypair create $KEY_NAME > ~/.ssh/$KEY_NAME.pem
+```
+
+```bash
+chmod 400 ~/.ssh/$KEY_NAME.pem
 ```
 
 
@@ -84,7 +88,7 @@ FLOATING_IP="x.x.x.x"
 ```
 
 
-## Adding Floating IP to a Server
+## Adding Floating IP
 ```bash
 openstack server add floating ip $SERVER_NAME $FLOATING_IP
 ```
@@ -144,7 +148,7 @@ openstack security group rule create $HTTPS_GROUP \
 ```
 
 
-## Adding Security Groups to a Server
+## Adding Security Groups
 ```bash
 openstack server add security group $SERVER_NAME $SSH_GROUP
 openstack server add security group $SERVER_NAME $HTTP_GROUP
@@ -166,6 +170,12 @@ openstack volume create $VOLUME_NAME \
 
 ```bash
 openstack server add volume $SERVER_NAME $VOLUME_NAME
+```
+
+
+## Connecting to the Virtual Machine
+```bash
+ssh ubuntu@$FLOATING_IP -i ~/.ssh/$KEY_NAME.pem
 ```
 
 

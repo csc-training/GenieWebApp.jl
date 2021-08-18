@@ -1,4 +1,4 @@
-# Via Command Line Interface
+# Deploying the Container via Command Line Interface
 We can deploy our application via the OpenShift Command Line Interface (CLI).
 
 ## Installing the Client
