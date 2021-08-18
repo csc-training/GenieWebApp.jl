@@ -133,13 +133,13 @@ openstack security group create $SSH_GROUP
 ```
 
 ```bash
-REMOTE_IP="x.x.x.x"
+REMOTE_IP=`curl ifconfig.me`
 ```
 
 ```bash
 openstack security group rule create $SSH_GROUP \
     --proto="tcp" \
-    --remote-ip=$REMOTE_IP \
+    --remote-ip="$REMOTE_IP/32" \
     --dst-port="22"
 ```
 
@@ -155,7 +155,7 @@ openstack security group create $HTTP_GROUP
 ```bash
 openstack security group rule create $HTTP_GROUP \
     --proto="tcp" \
-    --remote-ip="0.0.0.0" \
+    --remote-ip="0.0.0.0/0" \
     --dst-port="80"
 ```
 
@@ -171,7 +171,7 @@ openstack security group create $HTTPS_GROUP
 ```bash
 openstack security group rule create $HTTPS_GROUP \
     --proto="tcp" \
-    --remote-ip="0.0.0.0" \
+    --remote-ip="0.0.0.0/0" \
     --dst-port="443"
 ```
 
@@ -181,7 +181,6 @@ openstack security group rule create $HTTPS_GROUP \
 openstack server add security group $SERVER_NAME $SSH_GROUP
 openstack server add security group $SERVER_NAME $HTTP_GROUP
 openstack server add security group $SERVER_NAME $HTTPS_GROUP
-openstack server remove security group $SERVER_NAME default
 ```
 
 

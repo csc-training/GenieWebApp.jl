@@ -32,16 +32,18 @@ We can manage internet access to our virtual machine by defining security groups
 - *Rule*: `Custom TCP Rule`
 - *Direction*: `Ingress`
 - *Open Port*: `Port`
-- *Port*: `22` (Default for SSH connections.)
+- *Port*: `22` (Default port for SSH connections.)
 - *Remote*: `CIDR`
-- *CIDR*: `<ip-address>/24` (Substitute `<ip-address>` with your IP address which you can find out from [myipaddress.com](http://www.myipaddress.com/).)
+- *CIDR*: `<ip-address>/32`
+
+Substitute `<ip-address>` with your IP address which you can find out from [ifconfig.me](https://ifconfig.me/).
 
 Next, let's create a security group named `HTTP` and add a rule with parameters.
 
 - *Rule*: `Custom TCP Rule`
 - *Direction*: `Ingress`
 - *Open Port*: `Port`
-- *Port*: `80` (Default for HTTP connections.)
+- *Port*: `80` (Default port for HTTP connections.)
 - *Remote*: `CIDR`
 - *CIDR*: `0.0.0.0/0`
 
@@ -50,7 +52,7 @@ Finally, let's create `HTTPS` security group and add the rule with parameters:
 - *Rule*: `Custom TCP Rule`
 - *Direction*: `Ingress`
 - *Open Port*: `Port`
-- *Port*: `443` (Default for HTTPS connections.)
+- *Port*: `443` (Default port for HTTPS connections.)
 - *Remote*: `CIDR`
 - *CIDR*: `0.0.0.0/0`
 
@@ -67,7 +69,7 @@ We will use a virtual machine with the *Ubuntu 20.04* operating system. We can l
   - *Image Name*: `Ubuntu-20.04`
 - In *Access & Security* tab:
   - *Key Pair*: `$KEY_NAME`
-  - *Security Groups*: `SSH`, `HTTP`, `HTTPS`
+  - *Security Groups*: `default`, `SSH`, `HTTP`, `HTTPS`
 
 By including the `SSH` security group, we can connect to our virtual machine via SSH. Furthermore, by including `HTTP` and `HTTPS` security groups, we allow traffic from the internet to the web server and application deployed on the virtual machine.
 
