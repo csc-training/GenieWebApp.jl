@@ -14,7 +14,7 @@ SearchLightSQLite = "21a827c4-482a-11ea-3a19-4d2243a4a2c5"
 StructTypes = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
 
 [compat]
-Genie = "2.2.0"
+Genie = "3.0.0"
 MbedTLS = "1.0.3"
 SearchLight = "1.0.0"
 SearchLightSQLite = "1.0.0"
