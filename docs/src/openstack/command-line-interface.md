@@ -41,7 +41,16 @@ KEY_NAME="openstack-key"
 ```
 
 ```bash
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+```
+
+```bash
 openstack keypair create $KEY_NAME > ~/.ssh/$KEY_NAME.pem
+```
+
+```bash
+ssh-keygen -p -f ~/.ssh/$KEY_NAME.pem
 ```
 
 ```bash
@@ -76,7 +85,9 @@ openstack server list -f yaml
 
 ## Creating a Floating IP
 ```bash
-openstack floating ip create public
+openstack floating ip create public -f yaml
+```
+
 ```
 
 ```bash
@@ -105,13 +116,13 @@ openstack security group create $SSH_GROUP
 ```
 
 ```bash
-IP_ADDRESS="x.x.x.x"
+REMOTE_IP="x.x.x.x"
 ```
 
 ```bash
 openstack security group rule create $SSH_GROUP \
     --proto="tcp" \
-    --remote-ip=$IP_ADDRESS \
+    --remote-ip=$REMOTE_IP \
     --dst-port="22"
 ```
 

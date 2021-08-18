@@ -8,17 +8,21 @@ Once we have access to Pouta, we should log in to the [**Pouta Web User Interfac
 We can create SSH keys in the web interface by navigating to *Compute*, then *Key Pairs* and selecting *Create Key Pair*. Next, give the key pair name denoted by the variable `KEY_NAME` and save the downloaded `$KEY_NAME.pem` file to your home directory. Then, on the command line, move to the home directory, create `.ssh` directory with write privileges if it doesn't exist, and move your key file into it.
 
 ```bash
-cd ~
-mkdir -p .ssh
-chmod 700 .ssh
-mv $KEY_NAME.pem .ssh
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+mv $KEY_NAME.pem ~/.ssh
 ```
 
-Next, protect the key with a password and make it read-only.
+Next, protect the key with a password.
 
 ```bash
-ssh-keygen -p -f .ssh/$KEY_NAME.pem
-chmod 400 .ssh/$KEY_NAME.pem
+ssh-keygen -p -f ~/.ssh/$KEY_NAME.pem
+```
+
+Then, make the key read-only.
+
+```bash
+chmod 400 ~/.ssh/$KEY_NAME.pem
 ```
 
 
