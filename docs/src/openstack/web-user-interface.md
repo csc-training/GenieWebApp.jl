@@ -21,7 +21,7 @@ Next, protect the key with a password.
 ssh-keygen -p -f ~/.ssh/$KEY_NAME.pem
 ```
 
-Then, make the key read-only.
+Then, change the key to read-only.
 
 ```bash
 chmod 400 ~/.ssh/$KEY_NAME.pem
