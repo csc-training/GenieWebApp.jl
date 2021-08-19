@@ -1,4 +1,26 @@
 # Deploying the Application to a Virtual Machine
+## Finding Domain Name
+We can find out the default hostname of our virtual machine using the `host` command on the public IP address.
+
+```bash
+host $FLOATING_IP
+```
+
+```
+15.253.214.128.in-addr.arpa domain name pointer vm3814.kaj.pouta.csc.fi.
+```
+
+We can also configure our own domain name by pointing DNS records to the virtual machine IP address. You read more about [DNS services in cPouta](https://docs.csc.fi/cloud/pouta/additional-services/#dns-services-in-cpouta) in the docs.
+
+
+## Connecting to the Virtual Machine
+Now, we can [connect to our virtual machine](https://docs.csc.fi/cloud/pouta/connecting-to-vm/) using SSH with our SSH key.
+
+```bash
+ssh ubuntu@$FLOATING_IP -i ~/.ssh/$KEY_NAME.pem
+```
+
+
 ## Attaching the Persistent Volume
 Let's begin by creating a file system on the persistent volume.
 

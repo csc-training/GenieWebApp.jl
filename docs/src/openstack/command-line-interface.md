@@ -1,12 +1,12 @@
 # Setting up a Virtual Machine via Command Line Interface
-## Installing the Client
+## Setting up the OpenStack Client
 We can install the OpenStack client using Python. Let's install the [Miniconda](https://docs.conda.io/en/latest/miniconda.html) package manager which includes Python.
 
 ```bash
 python --version
 ```
 
-```
+```text
 Python 3.9.1
 ```
 
@@ -22,20 +22,20 @@ Check your installation by calling OpenStack with version flag.
 openstack --version
 ```
 
-```
+```text
 openstack 5.5.0
 ```
 
-
-## Configuring API Access
 Download [RC file](https://pouta.csc.fi/dashboard/project/api_access/openrc/) using the Web User Interface. Then, activate the script.
 
 ```bash
 source <project-name>-openrc.sh
 ```
 
+The prompt will ask your CSC username and password.
 
-## Creating SSH Keys
+
+## Configuring SSH Keys
 ```bash
 KEY_NAME="openstack-key"
 ```
@@ -43,6 +43,12 @@ KEY_NAME="openstack-key"
 ```bash
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
+```
+
+`ls -la ~ | grep ssh`
+
+```text
+drwx------.  2 jtollan csc   4096 Aug 18 08:17 .ssh
 ```
 
 ```bash
@@ -55,6 +61,12 @@ ssh-keygen -p -f ~/.ssh/$KEY_NAME.pem
 
 ```bash
 chmod 400 ~/.ssh/$KEY_NAME.pem
+```
+
+`ls -la ~/.ssh | grep $KEY_NAME.pem`
+
+```text
+-r--------.  1 jtollan csc 1676 Aug 17 08:51 $KEY_NAME.pem
 ```
 
 
@@ -83,7 +95,68 @@ openstack server list -f yaml
 ```
 
 
-## Creating a Floating IP
+## Configuring Security Groups
+### Creating SSH Group
+```bash
+SSH_GROUP="SSH"
+```
+
+```bash
+openstack security group create $SSH_GROUP
+```
+
+```bash
+REMOTE_IP=`curl https://ifconfig.me`
+```
+
+```bash
+openstack security group rule create $SSH_GROUP \
+    --proto="tcp" \
+    --remote-ip="$REMOTE_IP/32" \
+    --dst-port="22"
+```
+
+### Creating HTTP Group
+```bash
+HTTP_GROUP="HTTP"
+```
+
+```bash
+openstack security group create $HTTP_GROUP
+```
+
+```bash
+openstack security group rule create $HTTP_GROUP \
+    --proto="tcp" \
+    --remote-ip="0.0.0.0/0" \
+    --dst-port="80"
+```
+
+### Creating HTTPS Group
+```bash
+HTTPS_GROUP="HTTPS"
+```
+
+```bash
+openstack security group create $HTTPS_GROUP
+```
+
+```bash
+openstack security group rule create $HTTPS_GROUP \
+    --proto="tcp" \
+    --remote-ip="0.0.0.0/0" \
+    --dst-port="443"
+```
+
+### Adding Groups to Virtual Machine
+```bash
+openstack server add security group $SERVER_NAME $SSH_GROUP
+openstack server add security group $SERVER_NAME $HTTP_GROUP
+openstack server add security group $SERVER_NAME $HTTPS_GROUP
+```
+
+
+## Configuring a Floating IP
 ```bash
 openstack floating ip create public -f yaml
 ```
@@ -115,76 +188,12 @@ openstack floating ip list -f yaml
 FLOATING_IP="x.x.x.x"
 ```
 
-
-## Adding Floating IP
 ```bash
 openstack server add floating ip $SERVER_NAME $FLOATING_IP
 ```
 
 
-## Creating Security Groups
-### SSH
-```bash
-SSH_GROUP="SSH"
-```
-
-```bash
-openstack security group create $SSH_GROUP
-```
-
-```bash
-REMOTE_IP=`curl ifconfig.me`
-```
-
-```bash
-openstack security group rule create $SSH_GROUP \
-    --proto="tcp" \
-    --remote-ip="$REMOTE_IP/32" \
-    --dst-port="22"
-```
-
-### HTTP
-```bash
-HTTP_GROUP="HTTP"
-```
-
-```bash
-openstack security group create $HTTP_GROUP
-```
-
-```bash
-openstack security group rule create $HTTP_GROUP \
-    --proto="tcp" \
-    --remote-ip="0.0.0.0/0" \
-    --dst-port="80"
-```
-
-### HTTPS
-```bash
-HTTPS_GROUP="HTTPS"
-```
-
-```bash
-openstack security group create $HTTPS_GROUP
-```
-
-```bash
-openstack security group rule create $HTTPS_GROUP \
-    --proto="tcp" \
-    --remote-ip="0.0.0.0/0" \
-    --dst-port="443"
-```
-
-
-## Adding Security Groups
-```bash
-openstack server add security group $SERVER_NAME $SSH_GROUP
-openstack server add security group $SERVER_NAME $HTTP_GROUP
-openstack server add security group $SERVER_NAME $HTTPS_GROUP
-```
-
-
-## Adding Persistent Storage
+## Configuring Persistent Storage
 ```bash
 VOLUME_NAME="genie-volume"
 ```
@@ -197,28 +206,4 @@ openstack volume create $VOLUME_NAME \
 
 ```bash
 openstack server add volume $SERVER_NAME $VOLUME_NAME
-```
-
-
-## Connecting to the Virtual Machine
-```bash
-ssh ubuntu@$FLOATING_IP -i ~/.ssh/$KEY_NAME.pem
-```
-
-
-## Deleting a Server
-```bash
-openstack server delete $SERVER_NAME
-```
-
-
-## Deleting a Floating IP
-```bash
-openstack floating ip delete $FLOATING_IP
-```
-
-
-## Deleting Persistent Storage
-```bash
-openstack server remove volume $SERVER_NAME $VOLUME_NAME
 ```
