@@ -1,39 +1,46 @@
 # Deploying the Container via Web User Interface
-!!! info
-    These instructions are written for Rahti with **OKD3**. The instructions need to be updated once **OKD4** is released.
+## Creating a Project
+In this section, we explore how to use the [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) to deploy an application. We can log in and press *Create Project* with a unique name that we denote with `<project>`, which you should substitute with the actual name.
 
-## Pushing the Docker Image to Container Registry
-We should log in to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/), create a new project, and push the Docker image.
 
-Then, we can log in on the command line using the token provided by the web client.
+## Deploying the Application
+We should log in to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/) and create an empty image stream for the project with the following parameters.
 
-```bash
-sudo docker login -p <token> -u unused docker-registry.rahti.csc.fi
+- *Name*: `genie`
+- *Project*: `<project>`
+- *Populate*: `Create empty image stream`
+
+Let's switch to Rahti Web User Interface and choose the project. Then, we can create a build configuration by selecting *Import YAML/JSON*, then copying and pasting the YAML configuration below.
+
+```yaml
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: genie
+spec:
+  runPolicy: Serial
+  source:
+    git:
+      uri: 'https://github.com/csc-training/GenieWebApp.jl'
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'julia:1.6-buster'
+    type: Docker
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'genie:latest'
 ```
 
-Next, we should tag the locally built Docker image. Substitute `<name>` and `<tag>` with the same values as for the Docker image and `<project>` with the name of your Rahti project.
-
-```bash
-sudo docker tag <name>:<tag> docker-registry.rahti.csc.fi/<project>/<name>:<tag>
-```
-
-Now, we can push the image to the Rahti Container Registry.
-
-```bash
-sudo docker push docker-registry.rahti.csc.fi/<project>/<name>:<tag>
-```
-
-After we have uploaded the image, we are ready to deploy it.
-
-
-## Deploying the Container Image
-After uploading a container image, we can log in to [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) and deploy the image from the Rahti Container Registry by selecting *Deploy Image*, then *Image Stream Tag* with following parameters:
+The OKD documentation explains build configurations in [How Builds Work](https://docs.okd.io/3.11/dev_guide/builds/index.html). Next, navigate to *Builds* tab, select `genie` build, and press *Start Build*. Once the build has been completed, we can deploy the image by selecting *Deploy Image* from the *Add to Project* menu, and then deploying an *Image Stream Tag* with the following parameters:
 
 - *Namespace*: `<project>`
-- *Image Stream*: `<name>`
-- *Tag*: `<tag>`
+- *Image Stream*: `genie`
+- *Tag*: `latest`
 
-Finally, press *Deploy*.
+This deploys the application container to OpenShift.
 
 
 ## Creating a Secure Route
@@ -48,7 +55,7 @@ By creating a route, we can expose the application to the internet. We can creat
     - *TLS Termination*: `Edge`
     - *Insecure Traffic*: `Redirect`
 
-By selecting `Secure Route` we enforce a secure connection via HTTPS. Our application should now be available under the address `https://genie.rahtiapp.fi`.
+By selecting `Secure Route`, we enforce a secure connection via HTTPS. Therefore, our application should now be available under the address `https://genie.rahtiapp.fi`.
 
 
 ## Setting Up Persistent Storage

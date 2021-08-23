@@ -14,11 +14,11 @@ Now, we can test that your installation works by calling the help command.
 oc --help
 ```
 
-The [OpenShift 3.11 documentation](https://docs.openshift.com/container-platform/3.11/welcome/index.html) explains how to use OpenShift with different commands.
+The [OKD 3.11 documentation](https://docs.okd.io/3.11/welcome/index.html) explains how to use OpenShift with different commands.
 
 
 ## Login
-Let's login to OpenShift using the token obtained from the web user interface. We recommend to keep the web user interface open if you want to see visually how your deployment is progressing.
+Let's login to OpenShift using the token obtained from the [Web User Interface](https://rahti.csc.fi:8443/console/). We recommend to keep the web user interface open if you want to see visually how your deployment is progressing.
 
 ```bash
 oc login "https://rahti.csc.fi:8443" --token=<hidden>
