@@ -33,11 +33,11 @@ Furthermore, we recommend [The Twelve-Factor App](https://12factor.net/) guideli
 As a side note, it is also possible to develop [microservices](https://www.youtube.com/watch?v=uLhXgt_gKJc) in Julia using the [Julia SDK](https://www.youtube.com/watch?v=KixO3udfcKA) if you want to create a lightweight, customizable, single-purpose application without a front-end.
 
 
-## Deploying with OpenStack
+## Deploying to Virtual Machine using OpenStack (v5.5)
 In the *Deploying with OpenStack* section, we explain how to deploy the application manually from source to a virtual machine on the [**Pouta**](https://pouta.csc.fi/) cloud service using [OpenStack](https://www.openstack.org/) web interface and Linux command line on the virtual machine. We also show how to set persistent storage for the application.
 
 
-## Deploying with OpenShift
+## Deploying to OpenShift Container Platform (v3.11)
 In the *Deploying with OpenShift* section, we explain how to create a [**Docker**](https://www.docker.com/) container for the application and build and run a container image. Modern cloud architecture revolves around containers and container orchestration. We recommend reading the articles on [Demystifying Containers](https://github.com/saschagrunert/demystifying-containers) to understand how containers work in Linux. We continue by explaining how to deploy the application's container image to the [**Rahti**](https://rahti.csc.fi/) container platform using [OpenShift](https://www.openshift.com/) web interface. We also show how to set persistent storage for the application.
 
 
