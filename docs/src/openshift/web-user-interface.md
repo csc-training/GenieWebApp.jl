@@ -1,4 +1,4 @@
-# Deploying the Container via Web User Interface
+# Deploying the Application via Web User Interface
 ## Creating a Project
 This section explores how to use the [**Rahti Web User Interface**](https://rahti.csc.fi:8443/) to deploy an application. We can log in and press *Create Project* with a unique name that we denote with `<project>`, which you should substitute with the actual name.
 

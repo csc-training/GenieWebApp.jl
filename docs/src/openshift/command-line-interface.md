@@ -1,4 +1,4 @@
-# Deploying the Container via Command Line Interface
+# Deploying the Application via Command Line Interface
 We can deploy our application via the OpenShift Command Line Interface (CLI).
 
 ## Installing the Client
@@ -129,12 +129,4 @@ If we update our application and want to propagate the changes to the server, ca
 
 ```bash
 oc start-build $APP
-```
-
-
-## Deleting Application
-After we are done with our application we can delete it.
-
-```bash
-oc delete all -l app=$APP
 ```

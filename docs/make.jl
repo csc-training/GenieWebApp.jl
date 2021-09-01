@@ -24,11 +24,13 @@ makedocs(;
             joinpath("openstack", "web-user-interface.md"),
             joinpath("openstack", "command-line-interface.md"),
             joinpath("openstack", "deployment.md"),
+            joinpath("openstack", "deletion.md"),
         ],
         "Deploying to OpenShift Container Platform (v3.11)" => [
             joinpath("openshift", "container.md"),
             joinpath("openshift", "web-user-interface.md"),
             joinpath("openshift", "command-line-interface.md"),
+            joinpath("openshift", "deletion.md"),
         ],
     ],
 )
