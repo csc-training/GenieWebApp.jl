@@ -1,35 +1,76 @@
-# Developing the Application
-## Installing Julia Language
+# Creating a MVC Application
+## Installing the Julia Language
 We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
 
 
-## Creating MCV Application
-We can create a new Genie Model-View-Controller (MCV) application using Genie's generator. The structure for this application is generated as follows:
+## Installing Genie Package
+Next, we can install Genie using Julia's built-in package manager.
 
 ```julia
-using Genie; Genie.newapp_mvc("GenieWebApp")
+using Pkg
+Pkg.add("Genie")
 ```
 
-The generator creates file structure, configurations and adds database support. We use the SQLite database for development, testing, and production.
+
+## Generating a New MCV Application
+We can create a new Genie Model-View-Controller (MCV) application using Genie's generator.
+
+```julia
+using Genie
+Genie.newapp_mvc("GenieWebApp"; autostart=false)
+```
+
+Choose `1` for the database options to use the SQLite database for development, testing, and production. The generator creates file structure, configurations and adds database support. Additionally, it is a convention to name Julia packages with `.jl` extension. So let's add the `.jl` extension to the `GenieWebApp` directory.
+
+```bash
+mv GenieWebApp GenieWebApp.jl
+```
+
+Now, our Genie application has a directory structure as below.
+
+```plaintext
+GenieWebApp.jl
+├── app
+├── bin
+├── bootstrap.jl
+├── config
+├── db
+├── Manifest.toml
+├── Project.toml
+├── public
+├── routes.jl
+├── src
+└── test
+```
+
+Finally, let's change our working directory to the application directory.
+
+```bash
+cd GenieWebApp.jl
+```
+
+We are now ready to start developing our application.
 
 
-## Running the Application Locally
+## Running the Application
 We should `instantiate` the web application to install it locally with Julia's built-in package manager when running it for the first time.
 
 ```julia
-using Pkg; Pkg.instantiate()
+using Pkg
+Pkg.instantiate()
 ```
 
 Then, we can `activate` the web application.
 
 ```julia
-using Pkg; Pkg.activate(".")
+Pkg.activate(".")
 ```
 
 Next, let's import Genie and use the `loadapp` function for developing and running the application.
 
 ```julia
-using Genie; Genie.loadapp(".")
+using Genie
+Genie.loadapp(".")
 ```
 
 Now, we can use the `up` function to run a local web server on port `8000`.
@@ -38,53 +79,25 @@ Now, we can use the `up` function to run a local web server on port `8000`.
 up(8000)
 ```
 
-The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
+The local web server should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
 
-
-## Adding Resources and Routing
-We can create new resources using the `new_resource` function. We will create a resource named `Items`.
+We can also shut down the server.
 
 ```julia
-Genie.new_resource("Items")
+down()
 ```
 
-The function generates three files for the `Items` resource to `app/resources/items/` directory:
 
-1. `Items.jl` contains the database models,
-2. `ItemsController.jl` contains functions for handling requests by the users, and
-3. `ItemsValidator.jl` handles database validation.
-
-Inside `Items.jl`, we have created `Item` model, a mapping between objects in the database and Julia structs.
-
-```julia
-import SearchLight: AbstractModel, DbId
-import Base: @kwdef
-
-@kwdef mutable struct Item <: AbstractModel
-  id::DbId = DbId()
-  a::String = ""
-  b::Int = 0
-end
-```
-
-We define routes in the `routes.jl` file, which are mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, making a request on a route invokes the corresponding handler function in the resources and returns a response based on its output.
-
-
-## Configuring a Database
-Genie stores database configurations to `db/` directory. For example, we can add configuration for SQLite on `dev` environment to `db/connection.yml` file as follows:
+## Configuring the Database
+Genie stores database configurations to `db/` directory. We can configure SQLite for `dev`, `prod`, and `test` environments to in `db/connection.yml` file by setting the `adapter` variable to `SQLite`. Additionally, we set the database location to `data/database.sqlite`.
 
 ```yaml
-dev:
+<env>:
   adapter: SQLite
   database: data/database.sqlite
-  host:
-  username:
-  password:
-  port:
-  config:
 ```
 
-We can set up database tables if they don't exist with the following script.
+If they don't exist, we need to set up database tables by adding the script below to global configurations in `config/env/global.jl`.
 
 ```julia
 using SearchLight
@@ -101,4 +114,48 @@ catch
 end
 ```
 
-We have added it to the global configurations, `config/env/global.jl`.
+
+## Adding a New Resource
+We can create new resources using a Genie generator. For example, we can create a resource named `Items`.
+
+```julia
+Genie.newresource("Items")
+```
+
+The function generates a directory structure as follows.
+
+```plaintext
+app/resources/items/
+├── ItemsController.jl
+├── Items.jl
+├── ItemsValidator.jl
+└── views
+```
+
+### Model
+`Items.jl` contains the database models. Inside `Items.jl`, we have created `Item` model, a mapping between objects in the database and Julia structs.
+
+### Controller
+`ItemsController.jl` contains functions for handling requests by the users.
+
+### Validator
+`ItemsValidator.jl` handles database validation.
+
+### Views
+The `views` directory.
+
+```plaintext
+app/resources/items/views/
+├── item.jl.html
+└── item_list.jl.html
+```
+
+### Database Migration
+```plaintext
+db/migrations/
+└── <id>_create_table_items.jl
+```
+
+
+## Defining Routes
+We define routes in the `routes.jl` file, mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, it requests a route that invokes the corresponding handler function in the resources and returns a response based on its output.
