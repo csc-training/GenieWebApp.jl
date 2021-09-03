@@ -1,29 +1,35 @@
-# Creating a MVC Application
+# Creating an MVC Application
 ## Installing the Julia Language
-We should begin by installing [Julia language](https://julialang.org/) from their website and add the julia binary to the path. On the project directory, we can open the Julia REPL with `julia` command.
+We should begin by installing [**Julia language**](https://julialang.org/) from their website and add the julia binary to the path. Then, on the project directory, we can open the Julia REPL with `julia` command. The Julia REPL has four different modes:
+
+1) The Julia mode `julia>` for executing Julia code.
+2) The package manager mode `pkg>` for executing package manager commands. We can activate it by pressing the right square bracket key `]`.
+3) The help mode `help?>` for printing help and documentation. We can activate it by pressing the question mark key `?`.
+4) The shell mode `shell>` for executing shell commands. We can activate it by pressing the semicolon key `;`.
+
+We can press backspace to exit back to Julia mode. In this tutorial, we use the Julia and package manager modes.
 
 
 ## Installing Genie Package
 Next, we can install Genie using Julia's built-in package manager.
 
-```julia
-using Pkg
-Pkg.add("Genie")
+```julia-repl
+(@v1.6) pkg> add Genie
 ```
 
 
 ## Generating a New MCV Application
 We can create a new Genie Model-View-Controller (MCV) application using Genie's generator.
 
-```julia
-using Genie
-Genie.newapp_mvc("GenieWebApp"; autostart=false)
+```julia-repl
+julia> using Genie
+julia> Genie.newapp_mvc("GenieWebApp"; autostart=false)
 ```
 
-Choose `1` for the database options to use the SQLite database for development, testing, and production. The generator creates file structure, configurations and adds database support. Additionally, it is a convention to name Julia packages with `.jl` extension. So let's add the `.jl` extension to the `GenieWebApp` directory.
+Choose `1` for the database options to use the SQLite database for development, testing, and production. Then, the generator creates file structure, configurations and adds database support. Additionally, it is a convention to name Julia packages with `.jl` extension. So let's add the `.jl` extension to the `GenieWebApp` directory.
 
-```bash
-mv GenieWebApp GenieWebApp.jl
+```julia-repl
+julia> mv("GenieWebApp", "GenieWebApp.jl")
 ```
 
 Now, our Genie application has a directory structure as below.
@@ -45,51 +51,54 @@ GenieWebApp.jl
 
 Finally, let's change our working directory to the application directory.
 
-```bash
-cd GenieWebApp.jl
+```julia-repl
+julia> cd("GenieWebApp.jl")
 ```
 
 We are now ready to start developing our application.
 
 
 ## Running the Application
-We should `instantiate` the web application to install it locally with Julia's built-in package manager when running it for the first time.
+We should instantiate the web application to install it locally with Julia's built-in package manager when running it for the first time. Instantiation will create the `Manifest.toml` file.
 
-```julia
-using Pkg
-Pkg.instantiate()
+```julia-repl
+(@v1.6) pkg> instantiate
 ```
 
-Then, we can `activate` the web application.
+Then, we need to activate the web application so that we can run and develop it.
 
-```julia
-Pkg.activate(".")
+```julia-repl
+(@v1.6) pkg> activate .
 ```
 
-Next, let's import Genie and use the `loadapp` function for developing and running the application.
+The package manager mode should change to `GenieWebApp` as below.
 
-```julia
-using Genie
-Genie.loadapp(".")
+```julia-repl
+(GenieWebApp) pkg>
 ```
 
-Now, we can use the `up` function to run a local web server on port `8000`.
+Next, let's load our Genie application for developing and running it.
 
-```julia
-up(8000)
+```julia-repl
+julia> using Genie
+julia> Genie.loadapp(".")
 ```
 
-The local web server should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
+Now, we can run a local web server on port `8000`.
 
-We can also shut down the server.
+```julia-repl
+julia> up(8000)
+```
 
-```julia
-down()
+We can access the local web server via [`http://localhost:8000/`](http://localhost:8000/). We are finished exploring our application, we can shut down the server.
+
+```julia-repl
+julia> down()
 ```
 
 
 ## Configuring the Database
-Genie stores database configurations to `db/` directory. We can configure SQLite for `dev`, `prod`, and `test` environments to in `db/connection.yml` file by setting the `adapter` variable to `SQLite`. Additionally, we set the database location to `data/database.sqlite`.
+Our Genie application stores its database configurations to `db/` directory. We can configure SQLite for `dev`, `prod`, and `test` environments to in `db/connection.yml` file by setting the `adapter` variable to `SQLite`. Additionally, we set the database location to `data/database.sqlite`.
 
 ```yaml
 <env>:
@@ -118,8 +127,8 @@ end
 ## Adding a New Resource
 We can create new resources using a Genie generator. For example, we can create a resource named `Items`.
 
-```julia
-Genie.newresource("Items")
+```julia-repl
+julia> Genie.newresource("Items")
 ```
 
 The function generates a directory structure as follows.
