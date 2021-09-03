@@ -18,7 +18,7 @@ Next, we can install Genie using Julia's built-in package manager.
 ```
 
 
-## Generating a New MCV Application
+## Generating a New MVC Application
 We can create a new Genie Model-View-Controller (MCV) application using Genie's generator.
 
 ```julia-repl
@@ -55,7 +55,30 @@ Finally, let's change our working directory to the application directory.
 julia> cd("GenieWebApp.jl")
 ```
 
-We are now ready to start developing our application.
+Next, let's configure our database connection.
+
+
+## Configuring Database Connection
+Our Genie application stores its database configurations to `db/` directory. There, we can configure SQLite for development, production, and test environments by opening the `db/connection.yml` file and setting the `adapter` and `database` variables as below.
+
+```yaml
+dev:
+  adapter: SQLite
+  database: data/dev.sqlite
+  # ...
+
+prod:
+  adapter: SQLite
+  database: data/prod.sqlite
+  # ...
+
+test:
+  adapter: SQLite
+  database: data/test.sqlite
+  # ...
+```
+
+If the database file doesn't exist, Genie will create it automatically when we start a server. We are now ready to start developing our application.
 
 
 ## Running the Application
@@ -90,37 +113,10 @@ Now, we can run a local web server on port `8000`.
 julia> up(8000)
 ```
 
-We can access the local web server via [`http://localhost:8000/`](http://localhost:8000/). We are finished exploring our application, we can shut down the server.
+We can access the local web server via [`http://localhost:8000/`](http://localhost:8000/). Finally, when we have finished exploring our application, we can shut down the server.
 
 ```julia-repl
 julia> down()
-```
-
-
-## Configuring the Database
-Our Genie application stores its database configurations to `db/` directory. We can configure SQLite for `dev`, `prod`, and `test` environments to in `db/connection.yml` file by setting the `adapter` variable to `SQLite`. Additionally, we set the database location to `data/database.sqlite`.
-
-```yaml
-<env>:
-  adapter: SQLite
-  database: data/database.sqlite
-```
-
-If they don't exist, we need to set up database tables by adding the script below to global configurations in `config/env/global.jl`.
-
-```julia
-using SearchLight
-using SearchLightSQLite
-
-# Connect to database
-SearchLight.Configuration.load() |> SearchLight.connect
-try
-    # Run migrations if they don't exist
-    SearchLight.Migrations.create_migrations_table()
-    SearchLight.Migrations.last_up()
-catch
-    nothing
-end
 ```
 
 
@@ -141,17 +137,16 @@ app/resources/items/
 └── views
 ```
 
-### Model
-`Items.jl` contains the database models. Inside `Items.jl`, we have created `Item` model, a mapping between objects in the database and Julia structs.
+Additionally, it also creates a database migration.
 
-### Controller
-`ItemsController.jl` contains functions for handling requests by the users.
+```plaintext
+db/migrations/
+└── <id>_create_table_items.jl
+```
 
-### Validator
-`ItemsValidator.jl` handles database validation.
+`Items.jl` contains the database models. Inside `Items.jl`, we have created an `Item` model, a mapping between objects in the database and Julia structs. We should write an appropriate migration for the `Item` model to `<id>_create_table_items.jl`.
 
-### Views
-The `views` directory.
+`ItemsController.jl` contains functions for handling requests by the users. We should create the related view files to the `views` directory.
 
 ```plaintext
 app/resources/items/views/
@@ -159,12 +154,36 @@ app/resources/items/views/
 └── item_list.jl.html
 ```
 
-### Database Migration
-```plaintext
-db/migrations/
-└── <id>_create_table_items.jl
-```
+`ItemsValidator.jl` handles database validation.
 
 
 ## Defining Routes
 We define routes in the `routes.jl` file, mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, it requests a route that invokes the corresponding handler function in the resources and returns a response based on its output.
+
+
+## Setting Global Configurations
+Configurations executed in all environments are called global configurations stored in the `config/env/global.jl` file. In global configurations, we should include automatically creating secrets file as below.
+
+```julia
+using Genie
+Genie.Generator.write_secrets_file()
+```
+
+Also, we should include automatically configuring database migrations. That is, setting up database tables if they don't exist as below.
+
+```julia
+using SearchLight
+using SearchLightSQLite
+
+# Connect to database
+SearchLight.Configuration.load() |> SearchLight.connect
+try
+    # Run migrations if they don't exist
+    SearchLight.Migrations.create_migrations_table()
+    SearchLight.Migrations.last_up()
+catch
+    nothing
+end
+```
+
+Now, our basic application setup is complete.
