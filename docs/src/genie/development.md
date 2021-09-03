@@ -94,10 +94,23 @@ Then, we need to activate the web application so that we can run and develop it.
 (@v1.6) pkg> activate .
 ```
 
-The package manager mode should change to `GenieWebApp` as below.
+The package manager mode should change the environment to `GenieWebApp`. We can execute the status command to see the packages installed in the current environment.
 
 ```julia-repl
-(GenieWebApp) pkg>
+(GenieWebApp) pkg> status
+```
+
+```
+     Project GenieWebApp v0.1.0
+      Status `~/scratch/GenieWebApp.jl/Project.toml`
+  [c43c736e] Genie v3.0.0
+  [6d011eab] Inflector v1.0.1
+  [e6f89c97] LoggingExtras v0.4.7
+  [739be429] MbedTLS v1.0.3
+  [340e8cb6] SearchLight v1.0.2
+  [21a827c4] SearchLightSQLite v1.0.0
+  [ade2ca70] Dates
+  [56ddb016] Logging
 ```
 
 Next, let's load our Genie application for developing and running it.
