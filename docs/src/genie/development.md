@@ -78,7 +78,35 @@ test:
   # ...
 ```
 
-If the database file doesn't exist, Genie will create it automatically when we start a server. We are now ready to start developing our application.
+If the database file doesn't exist, Genie will create it automatically when we start a server.
+
+
+## Setting Global Configurations
+Configurations executed in all environments are called global configurations stored in the `config/env/global.jl` file. In global configurations, we should include automatically creating secrets file as below.
+
+```julia
+using Genie
+Genie.Generator.write_secrets_file()
+```
+
+Also, we should include automatically configuring database migrations. That is, setting up database tables if they don't exist as below.
+
+```julia
+using SearchLight
+using SearchLightSQLite
+
+# Connect to database
+SearchLight.Configuration.load() |> SearchLight.connect
+try
+    # Run migrations if they don't exist
+    SearchLight.Migrations.create_migrations_table()
+    SearchLight.Migrations.last_up()
+catch
+    nothing
+end
+```
+
+We are now ready to start developing our application.
 
 
 ## Running the Application
@@ -171,32 +199,4 @@ app/resources/items/views/
 
 
 ## Defining Routes
-We define routes in the `routes.jl` file, mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, it requests a route that invokes the corresponding handler function in the resources and returns a response based on its output.
-
-
-## Setting Global Configurations
-Configurations executed in all environments are called global configurations stored in the `config/env/global.jl` file. In global configurations, we should include automatically creating secrets file as below.
-
-```julia
-using Genie
-Genie.Generator.write_secrets_file()
-```
-
-Also, we should include automatically configuring database migrations. That is, setting up database tables if they don't exist as below.
-
-```julia
-using SearchLight
-using SearchLightSQLite
-
-# Connect to database
-SearchLight.Configuration.load() |> SearchLight.connect
-try
-    # Run migrations if they don't exist
-    SearchLight.Migrations.create_migrations_table()
-    SearchLight.Migrations.last_up()
-catch
-    nothing
-end
-```
-
-Now, our basic application setup is complete.
+We define routes in the `routes.jl` file, mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, it requests a route that invokes the corresponding handler function in the resources and returns a response based on its output. Now, our basic application setup is complete.
