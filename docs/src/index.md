@@ -2,8 +2,8 @@
 CurrentModule = GenieWebApp
 ```
 
-# Introduction
-## Goal
+# About Web Technologies and Cloud Computing
+## Goals
 Our goal with this tutorial is to demonstrate a practical, step-by-step approach for getting started with developing web applications with Julia language and Genie framework, deploying them on a cloud platform, and exposing them to users over the internet. As our deployment options, we explore traditional virtual machines and modern container platforms.
 
 We attempt to facilitate learning by first developing the web application locally, that is, on our personal computer, to demonstrate fundamental web technologies. From local development, it is easier to progress to deploying the application to the virtualized cloud environments, initially to a virtual machine and then to a container platform. Additionally, we begin by performing deployment steps manually using the web and command-line interfaces. Then, we progress towards automating them using a command-line interface and configuration management.

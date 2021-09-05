@@ -1,4 +1,8 @@
-# Creating an MVC Application
+# Building an MVC Application
+## Introduction
+This page explores how to build an MCV application from scratch with Genie framework similar to [csc-training/GenieWebApp.jl](https://github.com/csc-training/GenieWebApp.jl). Of course, you can clone the ready-made application and play with it. However, we recommend building your application from scratch and mimicking individual elements from the ready-made application to learn how web applications operate, which will help you to understand cloud computing better.
+
+
 ## Installing the Julia Language
 We should begin by installing [**Julia language**](https://julialang.org/) from their website and add the julia binary to the path. Then, on the project directory, we can open the Julia REPL with `julia` command. The Julia REPL has four different modes:
 
@@ -8,6 +12,16 @@ We should begin by installing [**Julia language**](https://julialang.org/) from 
 4) The shell mode `shell>` for executing shell commands. We can activate it by pressing the semicolon key `;`.
 
 We can press backspace to exit back to Julia mode. In this tutorial, we use the Julia and package manager modes.
+
+## Code Editor for Julia
+As a code editor, we recommend using [Julia for Visual Studio Code](https://www.julia-vscode.org/). First, we need to add the path to our Julia executable to the JSON settings, which we can open with the command `Open Settings JSON`. You need to replace the path below with your path.
+
+```json
+{
+  // ... other settings ...
+  "julia.executablePath": "~/bin/julia-1.6.1/bin/julia",
+}
+```
 
 
 ## Installing Genie Package

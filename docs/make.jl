@@ -15,7 +15,7 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Introduction" => "index.md",
+        "About Web Technologies and Cloud Computing" => "index.md",
         "Developing a Genie Application" => [
             joinpath("genie", "development.md"),
             joinpath("genie", "testing.md"),
