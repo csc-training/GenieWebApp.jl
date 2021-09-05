@@ -201,7 +201,7 @@ db/migrations/
 
 `Items.jl` contains the database models. Inside `Items.jl`, we have created an `Item` model, a mapping between objects in the database and Julia structs. We should write an appropriate migration for the `Item` model to `<id>_create_table_items.jl`.
 
-`ItemsController.jl` contains functions for handling requests by the users. We should create the related view files to the `views` directory.
+`ItemsController.jl` contains functions for handling requests by the users. We should create the related view template files to the `views` directory. For example, we might have the following view templates.
 
 ```plaintext
 app/resources/items/views/
@@ -213,4 +213,4 @@ app/resources/items/views/
 
 
 ## Defining Routes
-We define routes in the `routes.jl` file, mapped to the static files in `public/` and dynamic resources in `app/resources/`. When a server is running, it requests a route that invokes the corresponding handler function in the resources and returns a response based on its output. Now, our basic application setup is complete.
+Routes map requests to static resources in `public/` or controllers that trigger dynamic resources, for example, `ItemsController.jl`. We can define routes in the `routes.jl` file. When a server is running, it requests a route that invokes the corresponding handler function in the resources and returns a response based on its output. After defining routes, our basic application setup is complete.

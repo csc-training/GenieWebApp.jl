@@ -1,4 +1,4 @@
-# Testing Requests with HTTP.jl
+# Testing the Application
 ## HTTP Basics
 As an introduction to HTTP, we recommend reading the [HTTP section of Mozilla Developer Network (MDN)](https://developer.mozilla.org/en-US/docs/Web/HTTP) documentation. Especially, about the structure of HTTP messages, request methods and response status codes.
 
@@ -21,7 +21,7 @@ julia> base = "http://localhost:8000"
 The `base` variable should point to the base URL where we host our application, such as localhost or server where have deployed the application.
 
 
-## Views
+## HTML Views
 ### Listing All Items
 By sending a GET request to the `/items` the server returns the HTML that shows the Items page.
 
@@ -52,7 +52,7 @@ julia> HTTP.request("POST", "$(base)/items", [], form)
 ```
 
 
-## API
+## JSON API
 We have also implemented a JSON-based API on the application on the path `/api/items`. The API is intended for programmatic use and access to the application. We will use the [JSON3](https://github.com/quinnj/JSON3.jl) library for encoding Julia data structures into JSON payloads.
 
 ```julia-repl
@@ -155,4 +155,13 @@ Server: Genie/Julia/1.6.1
 Transfer-Encoding: chunked
 
 "Deleted""""
+```
+
+
+## Unit Tests
+We can run the unit tests.
+
+```julia-repl
+(@v1.6) pkg> activate .
+(GenieWebApp) pkg> test
 ```
