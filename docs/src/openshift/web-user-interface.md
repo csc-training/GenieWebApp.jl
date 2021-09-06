@@ -23,10 +23,6 @@ spec:
     git:
       uri: 'https://github.com/csc-training/GenieWebApp.jl'
   strategy:
-    dockerStrategy:
-      from:
-        kind: ImageStreamTag
-        name: 'julia:1.6-buster'
     type: Docker
   output:
     to:
