@@ -219,7 +219,7 @@ db/migrations/
 └── <id>_create_table_items.jl
 ```
 
-`Items.jl` contains the database models. Inside `Items.jl`, we have created an `Item` model, a mapping between objects in the database and Julia structs. We should write an appropriate migration for the `Item` model to `<id>_create_table_items.jl`.
+`Items.jl` contains the database models. Inside `Items.jl`, we have created an `Item` model, a mapping between objects in the database and Julia structs. If we want to support JSON, we need to add appropriate `StructTypes` mappings. We should also write an appropriate migration for the `Item` model to `<id>_create_table_items.jl`.
 
 `ItemsController.jl` contains functions for handling requests by the users. We should create the related view template files to the `views` directory. For example, we might have the following view templates.
 
