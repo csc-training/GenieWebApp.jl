@@ -159,9 +159,11 @@ Transfer-Encoding: chunked
 
 
 ## Unit Tests
-We can run the unit tests.
+We can run the unit tests from the package mode in Julia REPL.
 
 ```julia-repl
 (@v1.6) pkg> activate .
 (GenieWebApp) pkg> test
 ```
+
+The `test` command will execute `test/runtests.jl` script, which sets the Genie environment to `test`, creates a temporary database, loads the application, and runs a server. The unit tests send HTTP requests to the server and check for correct status codes.
