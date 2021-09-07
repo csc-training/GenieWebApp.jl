@@ -9,7 +9,6 @@ makedocs(;
     repo="https://github.com/csc-training/GenieWebApp.jl/blob/{commit}{path}#{line}",
     sitename="GenieWebApp.jl",
     format=Documenter.HTML(;
-        # prettyurls=get(ENV, "CI", "false") == "true",
         prettyurls = true,
         canonical="https://csc-training.github.io/GenieWebApp.jl",
         assets=String[],

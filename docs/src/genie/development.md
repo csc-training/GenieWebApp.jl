@@ -175,6 +175,26 @@ julia> down()
 ```
 
 
+## Supporting JSON
+As of version 2.0.0, the Genie framework uses [JSON3.jl](https://github.com/quinnj/JSON3.jl) package for supporting JSON. It requires the [StructTypes.jl](https://github.com/JuliaData/StructTypes.jl) package to map Julia structures and JSON format. Currently, we need to install it manually.
+
+```julia-repl
+(GenieWebApp) pkg> add StructTypes
+```
+
+We can also verify the version of the installed package.
+
+```julia-repl
+(GenieWebApp) pkg> status StructTypes
+```
+
+```plaintext
+     Project GenieWebApp v0.1.0
+      Status `~/scratch/GenieWebApp.jl/Project.toml`
+  [856f2bd8] StructTypes v1.7.3
+```
+
+
 ## Adding a New Resource
 We can create new resources using a Genie generator. For example, we can create a resource named `Items`.
 
