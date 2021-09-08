@@ -12,6 +12,7 @@ makedocs(;
         prettyurls = true,
         canonical="https://csc-training.github.io/GenieWebApp.jl",
         assets=String[],
+        highlights=String["dockerfile"],
     ),
     pages=[
         "About Web Technologies and Cloud Computing" => "index.md",
