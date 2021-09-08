@@ -4,12 +4,14 @@ This section explores how to use the [**Rahti Web User Interface**](https://raht
 
 
 ## Deploying the Application
+### Creating an Empty Image Stream
 We need to build a container image for the application to deploy it on OpenShift. OpenShift is capable of building container images in the cloud. To perform the build, we need to login to [**Rahti Container Registry**](https://registry-console.rahti.csc.fi/) and create an empty image stream for our application with the following parameters.
 
 - *Name*: `genie`
 - *Project*: `<project>`
 - *Populate*: `Create empty image stream`
 
+### Creating a Build Configuration
 Next, we should switch to the Rahti Web User Interface and choose the project. Then, we can build the container image from the specified GitHub repository to the empty image stream on Rahti Container Registry using a build configuration.  Start by selecting *Import YAML/JSON*, then copying and pasting the YAML configuration below.
 
 ```yaml
@@ -30,7 +32,10 @@ spec:
       name: 'genie:latest'
 ```
 
-The OKD documentation explains the build configurations in [How Builds Work](https://docs.okd.io/3.11/dev_guide/builds/index.html). Next, we need to initiate the container image build by navigating to the *Builds* tab, selecting `genie` build, and pressing *Start Build*. Once OpenShift has completed the build, we can deploy the image by selecting *Deploy Image* from the *Add to Project* menu and then deploying an *Image Stream Tag* with the following parameters:
+The OKD documentation explains the build configurations in [How Builds Work](https://docs.okd.io/3.11/dev_guide/builds/index.html).
+
+### Starting a Build
+Next, we need to initiate the container image build by navigating to the *Builds* tab, selecting `genie` build, and pressing *Start Build*. Once OpenShift has completed the build, we can deploy the image by selecting *Deploy Image* from the *Add to Project* menu and then deploying an *Image Stream Tag* with the following parameters:
 
 - *Namespace*: `<project>`
 - *Image Stream*: `genie`
