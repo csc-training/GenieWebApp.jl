@@ -160,7 +160,7 @@ sudo nano /etc/nginx/sites-available/genie
 
 On the Nano editor, add the following Nginx configurations:
 
-```bash
+```nginx
 server {
   listen 80;
   listen [::]:80;
