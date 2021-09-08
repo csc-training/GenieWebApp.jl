@@ -4,6 +4,7 @@ requirejs.config({
     'highlight-julia': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/languages/julia.min',
     'headroom': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/headroom.min',
     'jqueryui': 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min',
+    'highlight-dockerfile': 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/languages/dockerfile.min',
     'katex-auto-render': 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/contrib/auto-render.min',
     'jquery': 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min',
     'headroom-jquery': 'https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/jQuery.headroom.min',
@@ -13,6 +14,11 @@ requirejs.config({
   },
   shim: {
   "highlight-julia": {
+    "deps": [
+      "highlight"
+    ]
+  },
+  "highlight-julia-repl": {
     "deps": [
       "highlight"
     ]
@@ -28,7 +34,7 @@ requirejs.config({
       "headroom"
     ]
   },
-  "highlight-julia-repl": {
+  "highlight-dockerfile": {
     "deps": [
       "highlight"
     ]
@@ -65,7 +71,7 @@ $(document).ready(function() {
 
 })
 ////////////////////////////////////////////////////////////////////////////////
-require(['jquery', 'highlight', 'highlight-julia', 'highlight-julia-repl'], function($) {
+require(['jquery', 'highlight', 'highlight-julia', 'highlight-julia-repl', 'highlight-dockerfile'], function($) {
 $(document).ready(function() {
     hljs.highlightAll();
 })
