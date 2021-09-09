@@ -164,9 +164,9 @@ On the Nano editor, add the following Nginx configurations:
 server {
   listen 80;
   listen [::]:80;
-  # Use default hostname or custom domain name.
-  # `host <public-ip>`
-  server_name  vm3814.kaj.pouta.csc.fi;
+  # Replace `<domain-name>` your domain name, e.g., `example.com`.
+  # You can find hostname using command `host <public-ip>`.
+  server_name  <domain-name>;
   root         /home/ubuntu/GenieWebApp.jl/public;
   index        welcome.html;
   # Serve static content via Nginx
