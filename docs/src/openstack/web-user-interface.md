@@ -58,7 +58,7 @@ Let's create a new security group by selecting *Create Security Group* and name 
 - *Remote*: `CIDR`
 - *CIDR*: `<ip-address>/32`
 
-Substitute `<ip-address>` with your IP address which you can find out from [ifconfig.me](https://ifconfig.me/).
+Substitute `<ip-address>` with your IP address which you can find out from [ifconfig.me](https://ifconfig.me/). The number after the slash `/` is the CIDR Prefix. You can learn more about the [CIDR subnet mask notation](https://docs.netgate.com/pfsense/en/latest/network/cidr.html) from the Netgate documentation.
 
 ### Creating HTTP Group
 Next, let's create a security group named `HTTP` and add a rule with parameters.
