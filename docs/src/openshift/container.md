@@ -1,6 +1,6 @@
 # Creating a Container for the Application
 ## Installing a Container Engine
-We will use the [Podman](https://podman.io/) container engine for building and running containers. We should begin by [installing Podman](https://podman.io/getting-started/installation). However, we recommend using Podman instead of Docker because Podman is daemonless, making it easier to install and run. Although, we can use the Docker's documentation as [reference for Dockerfile](https://docs.docker.com/engine/reference/builder/).
+We will use the [Podman](https://podman.io/) container engine for building and running containers. We should begin by [installing Podman](https://podman.io/getting-started/installation) by following the instructions on their website. We recommend using Podman instead of Docker because Podman does not have a daemon, making it easier to install and run. However, we can use the Docker's documentation as [reference for Dockerfile](https://docs.docker.com/engine/reference/builder/) because it is more comprehensive than Podman's documentation.
 
 
 ## Ignoring Files from the Container
