@@ -1,4 +1,8 @@
 # Creating a Container for the Application
+## Installing a Container Engine
+We will use the [Podman](https://podman.io/) container engine for building and running containers. We should begin by [installing Podman](https://podman.io/getting-started/installation). However, we recommend using Podman instead of Docker because Podman is daemonless, making it easier to install and run. Although, we can use the Docker's documentation as [reference for Dockerfile](https://docs.docker.com/engine/reference/builder/).
+
+
 ## Ignoring Files from the Container
 The container image needs to ignore files that it does not need to function, such as local project files, automatically-generated files, or version control files from the container image. We can ignore files by creating a `.dockerignore` file, which works for Genie applications.
 
@@ -24,7 +28,7 @@ log
 
 
 ## Creating the Container Configuration
-We also need to create a configuration for the container image. Below, we explain how to create a `Dockerfile` to define how Docker builds a container image. We will start by using a [Julia Docker image](https://hub.docker.com/_/julia) as the base image.
+We also need to create a configuration for the container image. Below, we explain how to create a `Dockerfile` to define how container engine builds a container image. We will start by using a [Julia container image](https://hub.docker.com/_/julia) as the base image.
 
 ```Dockerfile
 FROM julia:1.6-buster
@@ -106,16 +110,19 @@ CMD ["bin/server"]
 
 
 ## Developing the Container Image
-We should begin by [installing Docker](https://docs.docker.com/get-docker/). Then, we can build a Docker image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with a name such as `genie` and `<tag>` with `latest`.
+!!! note
+    Podman commands are compatible with Docker. Therefore, if we need to use Docker instead of Podman, we can replace `podman` with `docker`.
+
+Then, we can build a container image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with a name such as `genie` and `<tag>` with `latest`.
 
 ```bash
-sudo docker build -t <name>:<tag> .
+sudo podman build -t <name>:<tag> .
 ```
 
 After building the image, we can run it locally with the `run` command. The option `-p` publishes the container port `8000` to host post `8000` in this order.
 
 ```bash
-sudo docker run -it -p 8000:8000 --rm <name>:<tag>
+sudo podman run -it -p 8000:8000 --rm <name>:<tag>
 ```
 
 The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
