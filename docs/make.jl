@@ -16,7 +16,7 @@ makedocs(;
     ),
     pages=[
         "About Web Technologies and Cloud Computing" => "index.md",
-        "Developing a Genie Application" => [
+        "Developing a Genie Application (v3.0)" => [
             joinpath("genie", "development.md"),
             joinpath("genie", "testing.md"),
         ],

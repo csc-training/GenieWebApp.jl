@@ -1,10 +1,10 @@
 # Creating a Container for the Application
-## Installing a Container Engine
-We will use the [Podman](https://podman.io/) container engine for building and running containers. We should begin by [installing Podman](https://podman.io/getting-started/installation) by following the instructions on their website. We recommend using Podman instead of Docker because Podman does not have a daemon, making it easier to install and run. However, we can use the Docker's documentation as [reference for Dockerfile](https://docs.docker.com/engine/reference/builder/) because it is more comprehensive than Podman's documentation.
+## Installing a Container Manager
+We can use either [Docker](https://www.docker.com/) or [Podman](https://podman.io/) for managing containers. Both of them use OCI compliant containers, and their CLIs are compatible with each other. We should begin by [installing Docker](https://docs.docker.com/get-docker/) or [installing Podman](https://podman.io/getting-started/installation) by following the instructions on their website. We recommend using Podman instead of Docker due to its daemon-less design and ability to run rootless mode. You can read more in the article [Transitioning from Docker to Podman](https://developers.redhat.com/blog/2020/11/19/transitioning-from-docker-to-podman).
 
 
 ## Ignoring Files from the Container
-The container image needs to ignore files that it does not need to function, such as local project files, automatically-generated files, or version control files from the container image. We can ignore files by creating a `.dockerignore` file, which works for Genie applications.
+The container image needs to ignore files that it does not need to function, such as local project files, automatically-generated files, or version control files from the container image. We can ignore files by creating a `.dockerignore` file, which works for Genie applications. Docker's documentation is a great [reference for Dockerfiles](https://docs.docker.com/engine/reference/builder/).
 
 ```plaintext
 ## Julia Project
@@ -27,7 +27,7 @@ log
 ```
 
 
-## Creating the Container Configuration
+## Creating the Container File
 We also need to create a configuration for the container image. Below, we explain how to create a `Dockerfile` to define how container engine builds a container image. We will start by using a [Julia container image](https://hub.docker.com/_/julia) as the base image.
 
 ```Dockerfile
@@ -109,20 +109,17 @@ CMD ["bin/server"]
 ```
 
 
-## Developing the Container Image
-!!! note
-    Podman commands are compatible with Docker. Therefore, if we need to use Docker instead of Podman, we can replace `podman` with `docker`.
-
-Then, we can build a container image locally using the `build` command. The option `-t` defines the name and tag for the image. We can substitute the `<name>` with a name such as `genie` and `<tag>` with `latest`.
+## Building and Running the Container
+If you are using Docker, use the `docker` command as below. If you are using Podman, you should substitute `docker` with `podman`. Now, we can build a container image locally using the `build` command. The option `-t` defines the name and tag for the image in the format `<name>:<tag>`.
 
 ```bash
-sudo podman build -t <name>:<tag> .
+sudo docker build -t genie:latest .
 ```
 
-After building the image, we can run it locally with the `run` command. The option `-p` publishes the container port `8000` to host post `8000` in this order.
+After building the image, we can run it locally with the `run` command. The option `-p` publishes the container port `8000` to host post `8000` in format `<container-port>:<host-port>`.
 
 ```bash
-sudo podman run -it -p 8000:8000 --rm <name>:<tag>
+sudo docker run -it -p 8000:8000 --rm genie:latest
 ```
 
-The local webserver should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.
+The local web server should be running on [http://localhost:8000/](http://localhost:8000/), and we can open it in the browser.

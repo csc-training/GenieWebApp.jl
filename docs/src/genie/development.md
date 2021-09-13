@@ -124,16 +124,16 @@ We are now ready to start developing our application.
 
 
 ## Running the Application
-We should instantiate the web application to install it locally with Julia's built-in package manager when running it for the first time. Instantiation will create the `Manifest.toml` file.
-
-```julia-repl
-(@v1.6) pkg> instantiate
-```
-
-Then, we need to activate the web application so that we can run and develop it.
+First, we need to activate the web application so that we can run and develop it.
 
 ```julia-repl
 (@v1.6) pkg> activate .
+```
+
+Next, we should instantiate the web application to install it locally with Julia's built-in package manager when running it for the first time. Instantiation will also create the `Manifest.toml` file if it does not exist.
+
+```julia-repl
+(@v1.6) pkg> instantiate
 ```
 
 The package manager mode should change the environment to `GenieWebApp`. We can execute the status command to see the packages installed in the current environment.
